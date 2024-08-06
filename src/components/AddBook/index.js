@@ -12,44 +12,53 @@ const style = {
   transform: "translate(-50%, -50%)",
   width: 400,
   bgcolor: "background.paper",
-  border: "2px solid #000",
+ 
   boxShadow: 24,
   p: 4,
+  display: 'flex',
+  flexDirection: 'column',
+  alignItems:"center",
+  borderRadius: 4,
+  gap: 4
+  
 };
 
 function AddBook({ open, handleClose }) {
   return (
-    <div>
-      <Modal
-        keepMounted
-        open={open}
-        onClose={handleClose}
-        aria-labelledby="keep-mounted-modal-title"
-        aria-describedby="keep-mounted-modal-description"
-      >
-        <Box sx={style}>
-          <Typography variant="h6" component="h2">
-            Add Book
-          </Typography>
-          <Box
-            component="form"
-            sx={{
-              "& > :not(style)": { m: 1, width: "25ch" },
-            }}
-            noValidate
-            autoComplete="off"
+    <Modal
+      keepMounted
+      open={open}
+      onClose={handleClose}
+      aria-labelledby="keep-mounted-modal-title"
+      aria-describedby="keep-mounted-modal-description"
+    >
+      <Box sx={style}>
+        <Typography variant="h6" component="h2" sx={{alignItems: "center"}}>
+          Add Book
+        </Typography>
+        <Box
+          component="form"
+          sx={{
+            "& > :not(style)": { m: 1, width: "100%" },
+          }}
+          noValidate
+          autoComplete="off"
+        >
+          <TextField id="book-name" label="Book Name" variant="filled"  />
+          <TextField id="author-name" label="Author Name" variant="filled"  />
+          <TextField id="category" label="Category" variant="filled"  />
+          <Button
+            variant="contained"
+            disableElevation
+            sx={{ backgroundColor: "#00ABFF", color: "#fff",padding: 2 }}
           >
-            <TextField id="book-name" label="Book Name" variant="outlined" />
-            <TextField id="author-name" label="Author Name" variant="outlined" />
-            <TextField id="category" label="Category" variant="outlined" />
-            <Button variant="contained" disableElevation color="#00ABFF">
-              Add
-            </Button>
-          </Box>
+            Add
+          </Button>
         </Box>
-      </Modal>
-    </div>
+      </Box>
+    </Modal>
   );
 }
 
 export default AddBook;
+

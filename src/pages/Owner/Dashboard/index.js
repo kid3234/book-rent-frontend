@@ -4,15 +4,48 @@ import NaveBar from "../../../components/NaveBar";
 
 import NewPieChart from "../../../components/PieChart";
 import ReactVirtualizedTable from "../../../components/Table";
+import EarningsSummaryChart from "../../../components/lineChart";
+
 
 
 function OwnewDashboard() {
+  const columns = [
+    { width: 50, label: 'No.', dataKey: 'number' },
+    { width: 80, label: 'Book no.', dataKey: 'bookNo' },
+    { width: 120, label: 'Book Name', dataKey: 'bookname' },
+    { width: 120, label: 'Status', dataKey: 'dashstatus' },
+    { width: 100, label: 'Price', dataKey: 'price' },
+    { width: 100, label: 'Action', dataKey: 'owneraction' },
+  ];
+
+  const sample = [
+    ['Frozen yoghurt', 159, 6.0, 24, 4.0],
+    ['Ice cream sandwich', 237, 9.0, 37, 4.3],
+    ['Eclair', 262, 16.0, 24, 6.0],
+    ['Cupcake', 305, 3.7, 67, 4.3],
+    ['Gingerbread', 356, 16.0, 49, 3.9],
+  ];
+  
+const rows = Array.from({ length: 200 }, (_, index) => {
+  const randomSelection = sample[Math.floor(Math.random() * sample.length)];
+  return {
+    id: index,
+    number: index + 1,
+    bookname: "Dertogada",
+    bookNo: randomSelection[1],
+    dashstatus: { text: 'FREE', checked: Math.random() > 0.5 },
+    owneraction: { name: 'John Doe', image: 'https://via.placeholder.com/40' },
+   
+    price: randomSelection[4],
+  };
+});
+
   return (
     <div className="w-full min-h-screen bg-[#F0F2FF]">
       <SideBar />
       <NaveBar />
       <div className="w-full min-h-screen pl-72 pt-20 flex gap-4">
-        <div className="bg-white w-[300px] p-2 rounded-md min-h-screen flex flex-col gap-10 justify-center text-[#525256] relative">
+        <div className="bg-white w-[300px] p-2 rounded-md h-[700px] flex flex-col gap-6 justify-center text-[#525256] relative">
           <div className="absolute top-4">
             <p className="font-semibold">This Month Statistics</p>
             <p className="text-sm text-gray-400">Tue, 14 Nov, 2024, 11:30 AM</p>
@@ -61,12 +94,16 @@ function OwnewDashboard() {
             </div>
           </div>
         </div>
+
+
         <div className="flex flex-col gap-4 w-3/4 min-h-screen px-6">
-          <div className="bg-white w-full h-[55%] rounded-xl">
+          <div className="bg-white w-full h-[51%] rounded-xl">
             
-          <ReactVirtualizedTable />
+          <ReactVirtualizedTable columns={columns} text="Live Book Status" rows={rows}/>
           </div>
-          <div className="bg-white w-full h-[40%]"></div>
+          <div className="bg-white w-full h-fit">
+            <EarningsSummaryChart />
+          </div>
         </div>
       </div>
     </div>

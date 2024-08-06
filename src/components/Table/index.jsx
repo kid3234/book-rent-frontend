@@ -1,251 +1,188 @@
-// import * as React from 'react';
-// import Table from '@mui/material/Table';
-// import TableBody from '@mui/material/TableBody';
-// import TableCell from '@mui/material/TableCell';
-// import TableContainer from '@mui/material/TableContainer';
-// import TableHead from '@mui/material/TableHead';
-// import TableRow from '@mui/material/TableRow';
-// import Paper from '@mui/material/Paper';
-// import { TableVirtuoso } from 'react-virtuoso';
-// import { Avatar, Box, Typography } from '@mui/material';
+import * as React from "react";
+import Table from "@mui/material/Table";
+import TableBody from "@mui/material/TableBody";
+import TableCell from "@mui/material/TableCell";
+import TableContainer from "@mui/material/TableContainer";
+import TableHead from "@mui/material/TableHead";
+import Button from "@mui/material/Button";
+import TableRow from "@mui/material/TableRow";
+import Paper from "@mui/material/Paper";
+import CheckIcon from "@mui/icons-material/Check";
+import EditIcon from '@mui/icons-material/Edit';
+import { TableVirtuoso } from "react-virtuoso";
+import DeleteIcon from "@mui/icons-material/Delete";
+import RemoveRedEyeIcon from "@mui/icons-material/RemoveRedEye";
+import {
+  Avatar,
+  Radio,
+  FormControlLabel,
+  Typography,
+  Box,
+  IconButton,
+  SvgIcon,
+  Stack,
+  Switch,
+} from "@mui/material";
 
-// const sample = [
-//   ['Frozen yoghurt', 159, 'FREE', 40.0],
-//   ['Ice cream sandwich', 237, 'RENTED', 30.0],
-//   ['Eclair', 262, 'FREE', 20.0],
-//   ['Cupcake', 305, 'RENTED', 50.0],
-//   ['Gingerbread', 356, 'FREE', 0.0],
-// ];
-
-// function createData(id, bookNo, status, price) {
-//   return { id, bookNo, status, owner: { name: `User ${id}`, image: 'https://via.placeholder.com/40' }, price };
-// }
-
-// const columns = [
-//   {
-//     width: 50,
-//     label: 'No.',
-//     dataKey: 'number',
-//   },
-//   {
-//     width: 80,
-//     label: 'Book no.',
-//     dataKey: 'bookNo',
-//   },
-//   {
-//     width: 120,
-//     label: 'Owner',
-//     dataKey: 'owner',
-//   },
-//   {
-//     width: 120,
-//     label: 'Status',
-//     dataKey: 'status',
-//   },
-//   {
-//     width: 100,
-//     label: 'Price',
-//     dataKey: 'price',
-//   },
-// ];
-
-// const rows = Array.from({ length: 200 }, (_, index) => {
-//   const randomSelection = sample[Math.floor(Math.random() * sample.length)];
-//   return {
-//     id: index,
-//     number: String(index + 1).padStart(2, '0'), // Format numbering as 01, 02, etc.
-//     bookNo: randomSelection[1],
-//     status: randomSelection[2],
-//     owner: { name: `User ${index}`, image: 'https://via.placeholder.com/40' },
-//     price: `${randomSelection[3].toFixed(1)} Birr`,
-//   };
-// });
-
-// const VirtuosoTableComponents = {
-//   Scroller: React.forwardRef((props, ref) => (
-//     <TableContainer component={Paper} {...props} ref={ref} />
-//   )),
-//   Table: (props) => (
-//     <Table {...props} sx={{ borderCollapse: 'separate', tableLayout: 'fixed' }} />
-//   ),
-//   TableHead: React.forwardRef((props, ref) => <TableHead {...props} ref={ref} />),
-//   TableRow,
-//   TableBody: React.forwardRef((props, ref) => <TableBody {...props} ref={ref} />),
-// };
-
-// function fixedHeaderContent() {
-//   return (
-//     <TableRow>
-//       {columns.map((column) => (
-//         <TableCell
-//           key={column.dataKey}
-//           variant="head"
-//           align={column.numeric ? 'right' : 'left'}
-//           style={{ width: column.width, fontWeight: 'bold' }}
-//           sx={{
-//             backgroundColor: 'background.paper',
-//           }}
-//         >
-//           {column.label}
-//         </TableCell>
-//       ))}
-//     </TableRow>
-//   );
-// }
-
-// function rowContent(_index, row) {
-//   return (
-//     <React.Fragment>
-//       {columns.map((column) => (
-//         <TableCell
-//           key={column.dataKey}
-//           align={'left'}
-//         >
-//           {column.dataKey === 'status' ? (
-//             <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-//               <Box
-//                 sx={{
-//                   width: 10,
-//                   height: 10,
-//                   borderRadius: '50%',
-//                   backgroundColor: row[column.dataKey] === 'FREE' ? 'blue' : 'red',
-//                 }}
-//               />
-//               <Typography>{row[column.dataKey]}</Typography>
-//             </Box>
-//           ) : column.dataKey === 'owner' ? (
-//             <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-//               <Avatar src={row[column.dataKey].image} />
-//               <Typography>{row[column.dataKey].name}</Typography>
-//             </Box>
-//           ) : (
-//             <Typography>{row[column.dataKey]}</Typography>
-//           )}
-//         </TableCell>
-//       ))}
-//     </React.Fragment>
-//   );
-// }
-
-// export default function ReactVirtualizedTable() {
-//   return (
-//     <Paper style={{ height: '100%', width: '100%' }}>
-//       <TableVirtuoso
-//         data={rows}
-//         components={VirtuosoTableComponents}
-//         fixedHeaderContent={fixedHeaderContent}
-//         itemContent={rowContent}
-//       />
-//     </Paper>
-//   );
-// }
-
-
-import * as React from 'react';
-import Table from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';
-import TableCell from '@mui/material/TableCell';
-import TableContainer from '@mui/material/TableContainer';
-import TableHead from '@mui/material/TableHead';
-import TableRow from '@mui/material/TableRow';
-import Paper from '@mui/material/Paper';
-import { TableVirtuoso } from 'react-virtuoso';
-import { Avatar, Radio, FormControlLabel, Typography, Box, IconButton, SvgIcon, Stack } from '@mui/material';
-
-const sample = [
-  ['Frozen yoghurt', 159, 6.0, 24, 4.0],
-  ['Ice cream sandwich', 237, 9.0, 37, 4.3],
-  ['Eclair', 262, 16.0, 24, 6.0],
-  ['Cupcake', 305, 3.7, 67, 4.3],
-  ['Gingerbread', 356, 16.0, 49, 3.9],
-];
-
-function createData(id, dessert, calories, fat, carbs, protein) {
-  return { id, dessert, calories, fat, carbs, protein };
-}
-
-const columns = [
-  { width: 50, label: 'No.', dataKey: 'number' },
-  { width: 80, label: 'Book no.', dataKey: 'bookNo' },
-  { width: 120, label: 'Owner', dataKey: 'owner' },
-  { width: 120, label: 'Status', dataKey: 'status' },
-  { width: 100, label: 'Price', dataKey: 'price' },
-];
-
-const rows = Array.from({ length: 200 }, (_, index) => {
-  const randomSelection = sample[Math.floor(Math.random() * sample.length)];
-  return {
-    id: index,
-    number: index + 1,
-    bookNo: randomSelection[1],
-    status: { text: 'FREE', checked: Math.random() > 0.5 },
-    owner: { name: 'John Doe', image: 'https://via.placeholder.com/40' },
-    price: randomSelection[4],
-  };
-});
-
-const VirtuosoTableComponents = {
-  Scroller: React.forwardRef((props, ref) => (
-    <TableContainer component={Paper} {...props} ref={ref} />
-  )),
-  Table: (props) => (
-    <Table {...props} sx={{ borderCollapse: 'separate', tableLayout: 'fixed' }} />
-  ),
-  TableHead: React.forwardRef((props, ref) => <TableHead {...props} ref={ref} />),
-  TableRow,
-  TableBody: React.forwardRef((props, ref) => <TableBody {...props} ref={ref} />),
+const StatusToggle = ({ checked, label, onChange }) => {
+  return (
+    <Box
+      display="flex"
+      alignItems="center"
+      sx={{
+        backgroundColor: "#e0f7e9",
+        borderRadius: 4,
+        padding: "2px 2px",
+        width: "max-content",
+      }}
+    >
+      <CheckIcon style={{ color: "#4caf50", marginRight: 8 }} />
+      <Typography
+        variant="body1"
+        style={{
+          color: "#4caf50",
+          fontWeight: 500,
+          marginRight: 12,
+        }}
+      >
+        {label}
+      </Typography>
+      <Switch
+        checked={checked}
+        onChange={onChange}
+        sx={{
+          "& .MuiSwitch-track": {
+            backgroundColor: checked ? "#a5d6a7" : "#e0e0e0",
+          },
+          "& .MuiSwitch-thumb": {
+            backgroundColor: "#2e7d32",
+          },
+        }}
+      />
+    </Box>
+  );
 };
 
-function fixedHeaderContent() {
-  return (
-    <TableRow>
-      {columns.map((column) => (
-        <TableCell
-          key={column.dataKey}
-          variant="head"
-          align={column.numeric || false ? 'right' : 'left'}
-          style={{ width: column.width }}
-          sx={{
-            backgroundColor: 'background.paper',
-          }}
-        >
-          {column.label}
-        </TableCell>
-      ))}
-    </TableRow>
-  );
-}
+export default function ReactVirtualizedTable({ text, columns, rows }) {
+  console.log(columns, text);
 
-function rowContent(_index, row) {
-  return (
-    <React.Fragment>
-      {columns.map((column) => (
-        <TableCell
-          key={column.dataKey}
-          align={'left'}
-        >
-          {column.dataKey === 'status' ? (
-            <>
+  const sample = [
+    ["Frozen yoghurt", 159, 6.0, 24, 4.0],
+    ["Ice cream sandwich", 237, 9.0, 37, 4.3],
+    ["Eclair", 262, 16.0, 24, 6.0],
+    ["Cupcake", 305, 3.7, 67, 4.3],
+    ["Gingerbread", 356, 16.0, 49, 3.9],
+  ];
+
+  function createData(id, dessert, calories, fat, carbs, protein) {
+    return { id, dessert, calories, fat, carbs, protein };
+  }
+
+  // const rows = Array.from({ length: 200 }, (_, index) => {
+  //   const randomSelection = sample[Math.floor(Math.random() * sample.length)];
+  //   return {
+  //     id: index,
+  //     number: index + 1,
+  //     location: "addis ababa",
+  //     upload:'true',
+  //     bookNo: randomSelection[1],
+  //     // status: { text: 'FREE', checked: Math.random() > 0.5 },
+  //     owner: { name: 'John Doe', image: 'https://via.placeholder.com/40' },
+  //     status:{ text: 'Active', checked: true },
+  //     price: randomSelection[4],
+  //   };
+  // });
+
+  const VirtuosoTableComponents = {
+    Scroller: React.forwardRef((props, ref) => (
+      <TableContainer component={Paper} {...props} ref={ref} />
+    )),
+    Table: (props) => (
+      <Table
+        {...props}
+        sx={{ borderCollapse: "separate", tableLayout: "fixed" }}
+      />
+    ),
+    TableHead: React.forwardRef((props, ref) => (
+      <TableHead {...props} ref={ref} />
+    )),
+    TableRow,
+    TableBody: React.forwardRef((props, ref) => (
+      <TableBody {...props} ref={ref} />
+    )),
+  };
+
+  function fixedHeaderContent() {
+    console.log("here 1", columns);
+
+    return (
+      <TableRow>
+        {columns.map((column) => (
+          <TableCell
+            key={column.dataKey}
+            variant="head"
+            align={column.numeric || false ? "right" : "left"}
+            style={{ width: column.width }}
+            sx={{
+              backgroundColor: "background.paper",
+            }}
+          >
+            {column.label}
+          </TableCell>
+        ))}
+      </TableRow>
+    );
+  }
+
+  function rowContent(_index, row) {
+    return (
+      <React.Fragment>
+        {columns.map((column) => (
+          <TableCell key={column.dataKey} align={"left"}>
+            {column.dataKey === "dashstatus" ? (
               <FormControlLabel
                 control={<Radio checked={row[column.dataKey].checked} />}
                 label={row[column.dataKey].text}
               />
-            </>
-          ) : column.dataKey === 'owner' ? (
-            <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-              <Avatar src={row[column.dataKey].image} />
-              <Typography>{row[column.dataKey].name}</Typography>
-            </Box>
-          ) : (
-            row[column.dataKey]
-          )}
-        </TableCell>
-      ))}
-    </React.Fragment>
-  );
-}
+            ) : column.dataKey === "action" ? (
+              <Box sx={{ display: "flex", justifyContent: "space-between" }}>
+                <Box sx={{ display: "flex", gap: 2 }}>
+                  <RemoveRedEyeIcon />
+                  <DeleteIcon sx={{ color: "#FF0000" }} />
+                </Box>
 
-export default function ReactVirtualizedTable() {
+                {/* <Button variant="contained" sx={{boxShadow: 'none'}}>Contained</Button>
+                 */}
+                <div className="px-6 py-1 rounded  bg-[#00ABFF] text-white">
+                  Approved
+                </div>
+              </Box>
+            ) :column.dataKey === "owneraction" ? (
+              <Box sx={{ display: "flex", justifyContent: "space-between" }}>
+                <Box sx={{ display: "flex", gap: 1 }}>
+                  <EditIcon />
+                  <DeleteIcon sx={{ color: "#FF0000" }} />
+                </Box>
+              </Box>
+            ) : column.dataKey === "owner" ? (
+              <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+                <Avatar src={row[column.dataKey].image} />
+                <Typography>{row[column.dataKey].name}</Typography>
+              </Box>
+            ) : column.dataKey === "status" ? (
+              <StatusToggle
+                checked={row[column.dataKey].checked}
+                label="Active"
+                onChange={() => console.log("Toggled")}
+              />
+            ) : (
+              row[column.dataKey]
+            )}
+          </TableCell>
+        ))}
+      </React.Fragment>
+    );
+  }
   // Handlers for the functionalities
   const handleSearch = () => {
     console.log("Search functionality triggered.");
@@ -268,13 +205,22 @@ export default function ReactVirtualizedTable() {
   };
 
   return (
-    <Paper style={{ height: '82%', width: '100%' }}>
-      <Box display="flex" justifyContent="space-between" alignItems="center" padding={2}>
-        <Typography variant="h6">Live Book Status</Typography>
+    <Paper style={{ height: "82%", width: "100%" }}>
+      <Box
+        display="flex"
+        justifyContent="space-between"
+        alignItems="center"
+        padding={2}
+      >
+        <Typography variant="h6">{text}</Typography>
         <Stack direction="row" spacing={1}>
           <IconButton onClick={handleSearch}>
             <SvgIcon>
-              <path fillRule="evenodd" clipRule="evenodd" d="M15.5 14H14.71L14.43 13.73C15.41 12.59 16 11.11 16 9.5C16 5.91 13.09 3 9.5 3C5.91 3 3 5.91 3 9.5C3 13.09 5.91 16 9.5 16C11.11 16 12.59 15.41 13.73 14.43L14 14.71V15.5L19 20.49L20.49 19L15.5 14ZM9.5 14C7.01 14 5 11.99 5 9.5C5 7.01 7.01 5 9.5 5C11.99 5 14 7.01 14 9.5C14 11.99 11.99 14 9.5 14Z" />
+              <path
+                fillRule="evenodd"
+                clipRule="evenodd"
+                d="M15.5 14H14.71L14.43 13.73C15.41 12.59 16 11.11 16 9.5C16 5.91 13.09 3 9.5 3C5.91 3 3 5.91 3 9.5C3 13.09 5.91 16 9.5 16C11.11 16 12.59 15.41 13.73 14.43L14 14.71V15.5L19 20.49L20.49 19L15.5 14ZM9.5 14C7.01 14 5 11.99 5 9.5C5 7.01 7.01 5 9.5 5C11.99 5 14 7.01 14 9.5C14 11.99 11.99 14 9.5 14Z"
+              />
             </SvgIcon>
           </IconButton>
           <IconButton onClick={handleFilterSort}>
@@ -284,13 +230,21 @@ export default function ReactVirtualizedTable() {
           </IconButton>
           <IconButton onClick={handleListViewToggle}>
             <SvgIcon>
-              <path fillRule="evenodd" clipRule="evenodd" d="M6.75 4L6.75 20H5.25L5.25 4H6.75ZM12.75 4L12.75 20H11.25L11.25 4H12.75ZM18.75 20V4H17.25V20H18.75Z" />
+              <path
+                fillRule="evenodd"
+                clipRule="evenodd"
+                d="M6.75 4L6.75 20H5.25L5.25 4H6.75ZM12.75 4L12.75 20H11.25L11.25 4H12.75ZM18.75 20V4H17.25V20H18.75Z"
+              />
               <path d="M6.75 20V21.5H8.25V20H6.75ZM6.75 4H8.25V2.5H6.75V4ZM5.25 20H3.75V21.5H5.25V20ZM5.25 4V2.5H3.75L3.75 4H5.25ZM12.75 20V21.5H14.25V20H12.75ZM12.75 4H14.25V2.5H12.75V4ZM11.25 20H9.75V21.5H11.25V20ZM11.25 4V2.5H9.75V4H11.25ZM18.75 4H20.25V2.5H18.75V4ZM18.75 20V21.5H20.25V20H18.75ZM17.25 4V2.5H15.75V4L17.25 4ZM17.25 20H15.75V21.5H17.25V20ZM8.25 20L8.25 4H5.25L5.25 20H8.25ZM5.25 21.5H6.75V18.5H5.25V21.5ZM3.75 4L3.75 20H6.75L6.75 4H3.75ZM6.75 2.5H5.25L5.25 5.5H6.75L6.75 2.5ZM14.25 20L14.25 4H11.25L11.25 20H14.25ZM11.25 21.5H12.75V18.5H11.25V21.5ZM9.75 4L9.75 20H12.75L12.75 4H9.75ZM12.75 2.5H11.25L11.25 5.5H12.75L12.75 2.5ZM17.25 4V20H20.25V4H17.25ZM17.25 5.5H18.75V2.5H17.25V5.5ZM18.75 20V4L15.75 4L15.75 20H18.75ZM18.75 18.5H17.25V21.5H18.75V18.5Z" />
             </SvgIcon>
           </IconButton>
           <IconButton onClick={handleSettings}>
             <SvgIcon>
-              <path fillRule="evenodd" clipRule="evenodd" d="M20 8.75H4V7.25H20V8.75ZM20 12.75H4V11.25H20V12.75ZM4 16.75H20V15.25H4V16.75Z" />
+              <path
+                fillRule="evenodd"
+                clipRule="evenodd"
+                d="M20 8.75H4V7.25H20V8.75ZM20 12.75H4V11.25H20V12.75ZM4 16.75H20V15.25H4V16.75Z"
+              />
             </SvgIcon>
           </IconButton>
         </Stack>
@@ -304,4 +258,3 @@ export default function ReactVirtualizedTable() {
     </Paper>
   );
 }
-
