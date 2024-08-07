@@ -116,7 +116,7 @@ export default function NewPieChart() {
       }}
     >
       <Box sx={{ marginBottom: 2 }}>
-        <PieChart width={270} height={270}>
+        <PieChart width={260} height={260}>
           <Pie
             data={data}
             cx={170}

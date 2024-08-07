@@ -1,8 +1,27 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import {
+  Box,
+  Button,
+  List,
+  ListItem,
+  ListItemText,
+  Divider,
+} from "@mui/material";
+import SpaceDashboardIcon from "@mui/icons-material/SpaceDashboard";
+import PersonOutlinedIcon from "@mui/icons-material/PersonOutlined";
+import { BrowserRouter as Router, Route, Routes, Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 
 function SideBar() {
+  const [userRole, setUserRole] = useState();
+
+  useEffect(() => {
+    setUserRole(localStorage.getItem("role"));
+    console.log(userRole);
+  }, []);
+
   return (
-    <div className="bg-[#171B36] rounded-lg min-h-[95%] w-[279] fixed left-2 top-4 text-[#FFFF] p-4 flex flex-col gap-8 ">
+    <div className="bg-[#171B36] rounded-lg min-h-[95%] w-[240px] fixed left-2 top-4 text-[#FFFF] p-4 flex flex-col gap-8 z-50">
       <div className="flex gap-4 items-center">
         <svg
           width="18"
@@ -85,66 +104,109 @@ function SideBar() {
           />
         </svg>
       </div>
+
+      <hr />
+
       <div className="flex flex-col gap-2">
-        <hr />
-        <div className="flex gap-2 p-2">
-          <svg
-            width="24"
-            height="24"
-            viewBox="0 0 24 24"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              d="M2 5C2 4.46957 2.21071 3.96086 2.58579 3.58579C2.96086 3.21071 3.46957 3 4 3H10V21H4C3.46957 21 2.96086 20.7893 2.58579 20.4142C2.21071 20.0391 2 19.5304 2 19V5ZM14 3H20C20.5304 3 21.0391 3.21071 21.4142 3.58579C21.7893 3.96086 22 4.46957 22 5V10H14V3ZM14 14H22V19C22 19.5304 21.7893 20.0391 21.4142 20.4142C21.0391 20.7893 20.5304 21 20 21H14V14Z"
-              stroke="white"
-              stroke-width="1.5"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-            />
-          </svg>
-          Dashboard
-        </div>
-        <div className="flex gap-2 p-2">
-          <svg
-            width="24"
-            height="24"
-            viewBox="0 0 24 24"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              d="M19.5 2.25H6.75C5.95435 2.25 5.19129 2.56607 4.62868 3.12868C4.06607 3.69129 3.75 4.45435 3.75 5.25V21C3.75 21.1989 3.82902 21.3897 3.96967 21.5303C4.11032 21.671 4.30109 21.75 4.5 21.75H18C18.1989 21.75 18.3897 21.671 18.5303 21.5303C18.671 21.3897 18.75 21.1989 18.75 21C18.75 20.8011 18.671 20.6103 18.5303 20.4697C18.3897 20.329 18.1989 20.25 18 20.25H5.25C5.25 19.8522 5.40804 19.4706 5.68934 19.1893C5.97064 18.908 6.35218 18.75 6.75 18.75H19.5C19.6989 18.75 19.8897 18.671 20.0303 18.5303C20.171 18.3897 20.25 18.1989 20.25 18V3C20.25 2.80109 20.171 2.61032 20.0303 2.46967C19.8897 2.32902 19.6989 2.25 19.5 2.25ZM18.75 17.25H6.75C6.22325 17.2492 5.70569 17.388 5.25 17.6522V5.25C5.25 4.85218 5.40804 4.47064 5.68934 4.18934C5.97064 3.90804 6.35218 3.75 6.75 3.75H18.75V17.25Z"
-              fill="white"
-              fill-opacity="0.75"
-            />
-          </svg>
-          Books
-        </div>
-        <div className="flex gap-2 p-2">
-          <svg
-            width="24"
-            height="24"
-            viewBox="0 0 24 24"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              d="M4 18C4 16.9391 4.42143 15.9217 5.17157 15.1716C5.92172 14.4214 6.93913 14 8 14H16C17.0609 14 18.0783 14.4214 18.8284 15.1716C19.5786 15.9217 20 16.9391 20 18C20 18.5304 19.7893 19.0391 19.4142 19.4142C19.0391 19.7893 18.5304 20 18 20H6C5.46957 20 4.96086 19.7893 4.58579 19.4142C4.21071 19.0391 4 18.5304 4 18Z"
-              stroke="white"
-              stroke-opacity="0.75"
-              stroke-width="1.5"
-              stroke-linejoin="round"
-            />
-            <path
-              d="M12 10C13.6569 10 15 8.65685 15 7C15 5.34315 13.6569 4 12 4C10.3431 4 9 5.34315 9 7C9 8.65685 10.3431 10 12 10Z"
-              stroke="white"
-              stroke-opacity="0.75"
-              stroke-width="1.5"
-            />
-          </svg>
-          Owners
-        </div>
+        <NavLink to={userRole === "admin" ? "/admin/dashboard" : "/owner/dashboard"} 
+          style={({ isActive }) => ({
+            textDecoration: "none",
+            background: isActive ? "#00ABFF" : "",
+
+            borderRadius: 4,
+            fontWeight: isActive ? "bold" : "normal",
+          })}
+        >
+          <div className="flex gap-2 p-2">
+            <svg
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M2 5C2 4.46957 2.21071 3.96086 2.58579 3.58579C2.96086 3.21071 3.46957 3 4 3H10V21H4C3.46957 21 2.96086 20.7893 2.58579 20.4142C2.21071 20.0391 2 19.5304 2 19V5ZM14 3H20C20.5304 3 21.0391 3.21071 21.4142 3.58579C21.7893 3.96086 22 4.46957 22 5V10H14V3ZM14 14H22V19C22 19.5304 21.7893 20.0391 21.4142 20.4142C21.0391 20.7893 20.5304 21 20 21H14V14Z"
+                stroke="white"
+                stroke-width="1.5"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+            </svg>
+            Dashboard
+          </div>
+        </NavLink>
+
+        <NavLink
+          to={userRole === "admin" ? "/admin/books" : "/owner/bookUpload"}
+          style={({ isActive }) => ({
+            textDecoration: "none",
+            background: isActive ? "#00ABFF" : "",
+            borderRadius: 4,
+            fontWeight: isActive ? "bold" : "normal",
+          })}
+        >
+          <div className="flex gap-2 p-2">
+            <svg
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M19.5 2.25H6.75C5.95435 2.25 5.19129 2.56607 4.62868 3.12868C4.06607 3.69129 3.75 4.45435 3.75 5.25V21C3.75 21.1989 3.82902 21.3897 3.96967 21.5303C4.11032 21.671 4.30109 21.75 4.5 21.75H18C18.1989 21.75 18.3897 21.671 18.5303 21.5303C18.671 21.3897 18.75 21.1989 18.75 21C18.75 20.8011 18.671 20.6103 18.5303 20.4697C18.3897 20.329 18.1989 20.25 18 20.25H5.25C5.25 19.8522 5.40804 19.4706 5.68934 19.1893C5.97064 18.908 6.35218 18.75 6.75 18.75H19.5C19.6989 18.75 19.8897 18.671 20.0303 18.5303C20.171 18.3897 20.25 18.1989 20.25 18V3C20.25 2.80109 20.171 2.61032 20.0303 2.46967C19.8897 2.32902 19.6989 2.25 19.5 2.25ZM18.75 17.25H6.75C6.22325 17.2492 5.70569 17.388 5.25 17.6522V5.25C5.25 4.85218 5.40804 4.47064 5.68934 4.18934C5.97064 3.90804 6.35218 3.75 6.75 3.75H18.75V17.25Z"
+                fill="white"
+                fill-opacity="0.75"
+              />
+            </svg>
+
+            {userRole === "admin" ? "Books" : "Book Upload"}
+          </div>
+        </NavLink>
+
+        {
+          userRole === "admin" ? (
+            <NavLink
+          to="/admin/owners"
+          style={({ isActive }) => ({
+            textDecoration: "none",
+            background: isActive ? "#00ABFF" : "",
+
+            borderRadius: 4,
+            fontWeight: isActive ? "bold" : "normal",
+          })}
+        >
+          <div className="flex gap-2 p-2">
+            <svg
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M4 18C4 16.9391 4.42143 15.9217 5.17157 15.1716C5.92172 14.4214 6.93913 14 8 14H16C17.0609 14 18.0783 14.4214 18.8284 15.1716C19.5786 15.9217 20 16.9391 20 18C20 18.5304 19.7893 19.0391 19.4142 19.4142C19.0391 19.7893 18.5304 20 18 20H6C5.46957 20 4.96086 19.7893 4.58579 19.4142C4.21071 19.0391 4 18.5304 4 18Z"
+                stroke="white"
+                stroke-opacity="0.75"
+                stroke-width="1.5"
+                stroke-linejoin="round"
+              />
+              <path
+                d="M12 10C13.6569 10 15 8.65685 15 7C15 5.34315 13.6569 4 12 4C10.3431 4 9 5.34315 9 7C9 8.65685 10.3431 10 12 10Z"
+                stroke="white"
+                stroke-opacity="0.75"
+                stroke-width="1.5"
+              />
+            </svg>
+            Owners
+          </div>
+        </NavLink>
+          ): ''
+        }
+
+        
+
         <div className="flex gap-2 p-2">
           <svg
             width="24"
@@ -174,7 +236,15 @@ function SideBar() {
         <hr />
       </div>
 
-      <div className="flex flex-col gap-2">
+      <ListItem
+        sx={{
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "start",
+          width: "100%",
+          padding: 0,
+        }}
+      >
         <div className="flex gap-2 p-2">
           <svg
             width="24"
@@ -228,7 +298,11 @@ function SideBar() {
           </svg>
           Setting
         </div>
-        <div className="flex gap-2 p-2">
+        <ListItem
+          component={Link}
+          to="/login"
+          sx={{ display: "flex", gap: 2, padding: 1 }}
+        >
           <svg
             width="24"
             height="24"
@@ -263,10 +337,10 @@ function SideBar() {
               stroke-width="0.2"
             />
           </svg>
-          Login as Book Owner
-        </div>
+          {userRole === "admin" ? "Login as Book Owner" : "Login as Admin"}
+        </ListItem>
         <hr />
-      </div>
+      </ListItem>
 
       <div className="w-[200px] h-[48px] rounded  flex gap-2 items-center justify-center bg-gray-600 absolute bottom-6  m-auto">
         <svg

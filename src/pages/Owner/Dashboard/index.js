@@ -45,7 +45,7 @@ const rows = Array.from({ length: 200 }, (_, index) => {
       <SideBar />
       <NaveBar />
       <div className="w-full min-h-screen pl-72 pt-20 flex gap-4">
-        <div className="bg-white w-[300px] p-2 rounded-md h-[700px] flex flex-col gap-6 justify-center text-[#525256] relative">
+        <div className="bg-white w-[300px] p-2 rounded-md h-[660px] flex flex-col gap-6 justify-center text-[#525256] relative">
           <div className="absolute top-4">
             <p className="font-semibold">This Month Statistics</p>
             <p className="text-sm text-gray-400">Tue, 14 Nov, 2024, 11:30 AM</p>

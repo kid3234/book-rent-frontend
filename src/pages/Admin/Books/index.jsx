@@ -1,9 +1,28 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import SideBar from "../../../components/Sidebar";
 import NaveBar from "../../../components/NaveBar";
 import ReactVirtualizedTable from "../../../components/Table";
+import axios from "axios";
 
 function Books() {
+const [books,setBooks] = useState()
+
+useEffect(()=>{
+  const token = localStorage.getItem('token')
+  axios.get('http://localhost:5000/api/V1/users/admin/books',{
+    headers:{
+      Authorization: `Bearer ${token}`
+    }
+  }).then((res)=>{
+    console.log(res);
+    setBooks(res.data);
+    
+  }).catch((err)=>{
+    console.log(err);
+    
+  })
+},[])
+
   const columns = [
     { width: 50, label: "No.", dataKey: "number" },
     { width: 80, label: "Author", dataKey: "author" },
@@ -21,7 +40,7 @@ function Books() {
     ['Gingerbread', 356, 16.0, 49, 3.9],
   ];
   
-const rows = Array.from({ length: 200 }, (_, index) => {
+const rows = Array.from({ length: 20 }, (_, index) => {
   const randomSelection = sample[Math.floor(Math.random() * sample.length)];
   return {
     id: index,
@@ -29,9 +48,9 @@ const rows = Array.from({ length: 200 }, (_, index) => {
     location: "addis ababa",
     upload:'true',
     bookNo: randomSelection[1],
-    // status: { text: 'FREE', checked: Math.random() > 0.5 },
+   
     owner: { name: 'John Doe', image: 'https://via.placeholder.com/40' },
-    status:{ text: 'Active', checked: true },
+    status:{ text: 'Inactive', checked: true },
     price: randomSelection[4],
   };
 });
@@ -43,7 +62,7 @@ const rows = Array.from({ length: 200 }, (_, index) => {
 
       <div className="w-full min-h-screen pl-72 pt-20 flex gap-4">
         <div className="w-[90%]  p-4">
-        <ReactVirtualizedTable columns={columns} text="List of Books" rows={rows} />
+        <ReactVirtualizedTable columns={columns} text="List of Books" rows={books} />
 
         </div>
       </div>

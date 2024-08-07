@@ -15,19 +15,7 @@ import {
 } from "@mui/material";
 
 function BookUpload() {
-  const [open, setOpen] = React.useState(false);
-
-  const [opensuc, setOpensuc] = React.useState(false);
-  const [opensee, setOpensee] = React.useState(false);
-
-  const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
-
-  const handleOpensuc = () => setOpensuc(true);
-  const handleClosesuc = () => setOpensuc(false);
-
-  const handleOpensee = () => setOpensee(true);
-  const handleClosesee = () => setOpensee(false);
+ 
 
   const [selectedBook, setSelectedBook] = useState("");
   const [questionnaires, setQuestionnaires] = useState([]);

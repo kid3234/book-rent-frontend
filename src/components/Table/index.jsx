@@ -5,13 +5,15 @@ import TableCell from "@mui/material/TableCell";
 import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import Button from "@mui/material/Button";
+
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
-import CheckIcon from "@mui/icons-material/Check";
-import EditIcon from '@mui/icons-material/Edit';
+
+import EditIcon from "@mui/icons-material/Edit";
 import { TableVirtuoso } from "react-virtuoso";
 import DeleteIcon from "@mui/icons-material/Delete";
 import RemoveRedEyeIcon from "@mui/icons-material/RemoveRedEye";
+
 import {
   Avatar,
   Radio,
@@ -23,75 +25,18 @@ import {
   Stack,
   Switch,
 } from "@mui/material";
+import StatusToggle from "../Toggle";
+import SeeMore from "../seeMore";
 
-const StatusToggle = ({ checked, label, onChange }) => {
-  return (
-    <Box
-      display="flex"
-      alignItems="center"
-      sx={{
-        backgroundColor: "#e0f7e9",
-        borderRadius: 4,
-        padding: "2px 2px",
-        width: "max-content",
-      }}
-    >
-      <CheckIcon style={{ color: "#4caf50", marginRight: 8 }} />
-      <Typography
-        variant="body1"
-        style={{
-          color: "#4caf50",
-          fontWeight: 500,
-          marginRight: 12,
-        }}
-      >
-        {label}
-      </Typography>
-      <Switch
-        checked={checked}
-        onChange={onChange}
-        sx={{
-          "& .MuiSwitch-track": {
-            backgroundColor: checked ? "#a5d6a7" : "#e0e0e0",
-          },
-          "& .MuiSwitch-thumb": {
-            backgroundColor: "#2e7d32",
-          },
-        }}
-      />
-    </Box>
-  );
-};
-
-export default function ReactVirtualizedTable({ text, columns, rows }) {
+export default function ReactVirtualizedTable({
+  text,
+  columns,
+  rows,
+  handleOpensee,
+}) {
   console.log(columns, text);
 
-  const sample = [
-    ["Frozen yoghurt", 159, 6.0, 24, 4.0],
-    ["Ice cream sandwich", 237, 9.0, 37, 4.3],
-    ["Eclair", 262, 16.0, 24, 6.0],
-    ["Cupcake", 305, 3.7, 67, 4.3],
-    ["Gingerbread", 356, 16.0, 49, 3.9],
-  ];
 
-  function createData(id, dessert, calories, fat, carbs, protein) {
-    return { id, dessert, calories, fat, carbs, protein };
-  }
-
-  // const rows = Array.from({ length: 200 }, (_, index) => {
-  //   const randomSelection = sample[Math.floor(Math.random() * sample.length)];
-  //   return {
-  //     id: index,
-  //     number: index + 1,
-  //     location: "addis ababa",
-  //     upload:'true',
-  //     bookNo: randomSelection[1],
-  //     // status: { text: 'FREE', checked: Math.random() > 0.5 },
-  //     owner: { name: 'John Doe', image: 'https://via.placeholder.com/40' },
-  //     status:{ text: 'Active', checked: true },
-  //     price: randomSelection[4],
-  //   };
-  // });
 
   const VirtuosoTableComponents = {
     Scroller: React.forwardRef((props, ref) => (
@@ -141,14 +86,34 @@ export default function ReactVirtualizedTable({ text, columns, rows }) {
           <TableCell key={column.dataKey} align={"left"}>
             {column.dataKey === "dashstatus" ? (
               <FormControlLabel
-                control={<Radio checked={row[column.dataKey].checked} />}
+                control={
+                  <Radio
+                    sx={
+                      row[column.dataKey].text === "RENTED"
+                        ? {
+                            "&.Mui-checked": {
+                              color: "#FF0000", // Default fill color when checked
+                            },
+                          }
+                        : {
+                            "&.Mui-checked": {
+                              color: "#00ABFF", // Default fill color when checked
+                            },
+                          }
+                    }
+                    checked={true}
+                  />
+                }
                 label={row[column.dataKey].text}
               />
             ) : column.dataKey === "action" ? (
               <Box sx={{ display: "flex", justifyContent: "space-between" }}>
                 <Box sx={{ display: "flex", gap: 2 }}>
-                  <RemoveRedEyeIcon />
-                  <DeleteIcon sx={{ color: "#FF0000" }} />
+                  <RemoveRedEyeIcon
+                    onClick={() => handleOpensee(row)}
+                    sx={{ cursor: "pointer" }}
+                  />
+                  <DeleteIcon sx={{ color: "#FF0000", cursor: "pointer" }} />
                 </Box>
 
                 {/* <Button variant="contained" sx={{boxShadow: 'none'}}>Contained</Button>
@@ -157,7 +122,7 @@ export default function ReactVirtualizedTable({ text, columns, rows }) {
                   Approved
                 </div>
               </Box>
-            ) :column.dataKey === "owneraction" ? (
+            ) : column.dataKey === "owneraction" ? (
               <Box sx={{ display: "flex", justifyContent: "space-between" }}>
                 <Box sx={{ display: "flex", gap: 1 }}>
                   <EditIcon />
@@ -167,13 +132,19 @@ export default function ReactVirtualizedTable({ text, columns, rows }) {
             ) : column.dataKey === "owner" ? (
               <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
                 <Avatar src={row[column.dataKey].image} />
-                <Typography>{row[column.dataKey].name}</Typography>
+                <Typography>{row[column.dataKey].email}</Typography>
+              </Box>
+            ) : column.dataKey === "bName" ? (
+              <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+                <Typography>{row.title}</Typography>
               </Box>
             ) : column.dataKey === "status" ? (
               <StatusToggle
-                checked={row[column.dataKey].checked}
-                label="Active"
-                onChange={() => console.log("Toggled")}
+                checked={row[column.dataKey]}
+                label={row[column.dataKey]  ? "Active" : "Disabled"}
+                onChange={column.dataKey}
+                status={row[column.dataKey]}
+                id={row.id}
               />
             ) : (
               row[column.dataKey]
@@ -183,6 +154,7 @@ export default function ReactVirtualizedTable({ text, columns, rows }) {
       </React.Fragment>
     );
   }
+
   // Handlers for the functionalities
   const handleSearch = () => {
     console.log("Search functionality triggered.");
@@ -258,3 +230,30 @@ export default function ReactVirtualizedTable({ text, columns, rows }) {
     </Paper>
   );
 }
+
+// function rowContentt(_index, row) {
+//   return (
+//     <React.Fragment>
+//       {columns.map((column) => (
+//         <TableCell key={column.dataKey} align={"left"}>
+//           {column.dataKey === "action" ? (
+//             <Box sx={{ display: "flex", justifyContent: "space-between" }}>
+//               <Box sx={{ display: "flex", gap: 2 }}>
+//                 <RemoveRedEyeIcon
+//                   onClick={handleOpensee}
+//                   sx={{ cursor: "pointer" }}
+//                 />
+//                 <DeleteIcon sx={{ color: "#FF0000", cursor: "pointer" }} />
+//               </Box>
+//               <div className="px-6 py-1 rounded bg-[#00ABFF] text-white">
+//                 Approved
+//               </div>
+//             </Box>
+//           ) : (
+//             row[column.dataKey]
+//           )}
+//         </TableCell>
+//       ))}
+//     </React.Fragment>
+//   );
+// }

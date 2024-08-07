@@ -20,7 +20,9 @@ const style = {
   borderRadius: 4,
 };
 
-function SeeMore({ open, handleClose }) {
+function SeeMore({ open, handleClose, data }) {
+  console.log("data on pop up",data);
+  
   return (
     <Modal
       keepMounted
@@ -38,10 +40,50 @@ function SeeMore({ open, handleClose }) {
           noValidate
           autoComplete="off"
         >
-          <TextField id="name" label="Name" />
-          <TextField id="email" label="Email address" />
-          <TextField id="location" label="Location"  />
-          <TextField id="phone" label="Phone Number"  />
+          <TextField
+            id="name"
+            label="Name"
+            value={data?.name}
+            InputProps={{
+              readOnly: true,
+            }}
+            InputLabelProps={{
+              shrink: true,
+            }}
+          />
+          <TextField
+            id="email"
+            label="Email address"
+            value={data?.email}
+            InputProps={{
+              readOnly: true,
+            }}
+            InputLabelProps={{
+              shrink: true,
+            }}
+          />
+          <TextField
+            id="location"
+            label="Location"
+            value={data?.location}
+            InputProps={{
+              readOnly: true,
+            }}
+            InputLabelProps={{
+              shrink: true,
+            }}
+          />
+          <TextField
+            id="phone"
+            label="Phone Number"
+            value={data?.phone}
+            InputProps={{
+              readOnly: true,
+            }}
+            InputLabelProps={{
+              shrink: true,
+            }}
+          />
         </Box>
       </Box>
     </Modal>
