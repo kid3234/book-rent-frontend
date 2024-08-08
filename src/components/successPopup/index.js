@@ -108,6 +108,7 @@ function Success({ open, handleClose }) {
                 width: 40,
                 textAlign: "center",
               }}
+              onClick={handleClose}
             >
               OK
             </Button>

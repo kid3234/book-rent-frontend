@@ -108,7 +108,6 @@ function Owners() {
   const [data,setData] = useState()
   const [owners, setOwners] = useState([]);
   const [open, setOpen] = React.useState(false);
-  const [opensuc, setOpensuc] = React.useState(false);
   const [opensee, setOpensee] = React.useState(false);
   
   const handleClosesee = () => setOpensee(false);
@@ -120,9 +119,8 @@ function Owners() {
   } 
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
-  const handleOpensuc = () => setOpensuc(true);
-  const handleClosesuc = () => setOpensuc(false);
-
+ 
+  
   const columns = [
     { width: 50, label: "No.", dataKey: "number" },
     { width: 120, label: "Owner", dataKey: "name" },

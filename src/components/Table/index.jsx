@@ -33,6 +33,7 @@ export default function ReactVirtualizedTable({
   columns,
   rows,
   handleOpensee,
+  handleOpenedit
 }) {
   console.log(columns, text);
 
@@ -89,7 +90,7 @@ export default function ReactVirtualizedTable({
                 control={
                   <Radio
                     sx={
-                      row[column.dataKey].text === "RENTED"
+                      row.availability === "RENTED"
                         ? {
                             "&.Mui-checked": {
                               color: "#FF0000", // Default fill color when checked
@@ -102,9 +103,10 @@ export default function ReactVirtualizedTable({
                           }
                     }
                     checked={true}
+                    onClick={console.log("clicked .......",row)}
                   />
                 }
-                label={row[column.dataKey].text}
+                label={row.availability}
               />
             ) : column.dataKey === "action" ? (
               <Box sx={{ display: "flex", justifyContent: "space-between" }}>
@@ -125,7 +127,10 @@ export default function ReactVirtualizedTable({
             ) : column.dataKey === "owneraction" ? (
               <Box sx={{ display: "flex", justifyContent: "space-between" }}>
                 <Box sx={{ display: "flex", gap: 1 }}>
-                  <EditIcon />
+                  <EditIcon
+                    onClick={() => handleOpenedit(row)}
+                    sx={{ cursor: "pointer" }}
+                  />
                   <DeleteIcon sx={{ color: "#FF0000" }} />
                 </Box>
               </Box>
@@ -137,6 +142,10 @@ export default function ReactVirtualizedTable({
             ) : column.dataKey === "bName" ? (
               <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
                 <Typography>{row.title}</Typography>
+              </Box>
+            ) : column.dataKey === "bookNo" ? (
+              <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+                <Typography>{row.quantity}</Typography>
               </Box>
             ) : column.dataKey === "status" ? (
               <StatusToggle
