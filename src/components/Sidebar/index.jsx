@@ -11,9 +11,18 @@ import SpaceDashboardIcon from "@mui/icons-material/SpaceDashboard";
 import PersonOutlinedIcon from "@mui/icons-material/PersonOutlined";
 import { BrowserRouter as Router, Route, Routes, Link } from "react-router-dom";
 import { NavLink } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 
 function SideBar() {
   const [userRole, setUserRole] = useState();
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    localStorage.removeItem("role");
+    navigate("/login");
+  };
 
   useEffect(() => {
     setUserRole(localStorage.getItem("role"));
@@ -108,7 +117,8 @@ function SideBar() {
       <hr />
 
       <div className="flex flex-col gap-2">
-        <NavLink to={userRole === "admin" ? "/admin/dashboard" : "/owner/dashboard"} 
+        <NavLink
+          to={userRole === "admin" ? "/admin/dashboard" : "/owner/dashboard"}
           style={({ isActive }) => ({
             textDecoration: "none",
             background: isActive ? "#00ABFF" : "",
@@ -165,47 +175,64 @@ function SideBar() {
           </div>
         </NavLink>
 
-        {
-          userRole === "admin" ? (
-            <NavLink
-          to="/admin/owners"
-          style={({ isActive }) => ({
-            textDecoration: "none",
-            background: isActive ? "#00ABFF" : "",
+        {userRole === "admin" ? (
+          <NavLink
+            to="/admin/owners"
+            style={({ isActive }) => ({
+              textDecoration: "none",
+              background: isActive ? "#00ABFF" : "",
 
-            borderRadius: 4,
-            fontWeight: isActive ? "bold" : "normal",
-          })}
-        >
-          <div className="flex gap-2 p-2">
-            <svg
-              width="24"
-              height="24"
-              viewBox="0 0 24 24"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                d="M4 18C4 16.9391 4.42143 15.9217 5.17157 15.1716C5.92172 14.4214 6.93913 14 8 14H16C17.0609 14 18.0783 14.4214 18.8284 15.1716C19.5786 15.9217 20 16.9391 20 18C20 18.5304 19.7893 19.0391 19.4142 19.4142C19.0391 19.7893 18.5304 20 18 20H6C5.46957 20 4.96086 19.7893 4.58579 19.4142C4.21071 19.0391 4 18.5304 4 18Z"
-                stroke="white"
-                stroke-opacity="0.75"
-                stroke-width="1.5"
-                stroke-linejoin="round"
-              />
-              <path
-                d="M12 10C13.6569 10 15 8.65685 15 7C15 5.34315 13.6569 4 12 4C10.3431 4 9 5.34315 9 7C9 8.65685 10.3431 10 12 10Z"
-                stroke="white"
-                stroke-opacity="0.75"
-                stroke-width="1.5"
-              />
-            </svg>
-            Owners
-          </div>
-        </NavLink>
-          ): ''
-        }
+              borderRadius: 4,
+              fontWeight: isActive ? "bold" : "normal",
+            })}
+          >
+            <div className="flex gap-2 p-2">
+              <svg
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M4 18C4 16.9391 4.42143 15.9217 5.17157 15.1716C5.92172 14.4214 6.93913 14 8 14H16C17.0609 14 18.0783 14.4214 18.8284 15.1716C19.5786 15.9217 20 16.9391 20 18C20 18.5304 19.7893 19.0391 19.4142 19.4142C19.0391 19.7893 18.5304 20 18 20H6C5.46957 20 4.96086 19.7893 4.58579 19.4142C4.21071 19.0391 4 18.5304 4 18Z"
+                  stroke="white"
+                  stroke-opacity="0.75"
+                  stroke-width="1.5"
+                  stroke-linejoin="round"
+                />
+                <path
+                  d="M12 10C13.6569 10 15 8.65685 15 7C15 5.34315 13.6569 4 12 4C10.3431 4 9 5.34315 9 7C9 8.65685 10.3431 10 12 10Z"
+                  stroke="white"
+                  stroke-opacity="0.75"
+                  stroke-width="1.5"
+                />
+              </svg>
+              Owners
+            </div>
+          </NavLink>
+        ) : (
+          ""
+        )}
+        {userRole === "owner" ? (
+          <NavLink
+            to="/owner/profile"
+            style={({ isActive }) => ({
+              textDecoration: "none",
+              background: isActive ? "#00ABFF" : "",
 
-        
+              borderRadius: 4,
+              fontWeight: isActive ? "bold" : "normal",
+            })}
+          >
+            <div className="flex gap-2 p-2">
+            <AccountCircleIcon />
+              Profile
+            </div>
+          </NavLink>
+        ) : (
+          ""
+        )}
 
         <div className="flex gap-2 p-2">
           <svg
@@ -342,7 +369,10 @@ function SideBar() {
         <hr />
       </ListItem>
 
-      <div className="w-[200px] h-[48px] rounded  flex gap-2 items-center justify-center bg-gray-600 absolute bottom-6  m-auto">
+      <div
+        onClick={handleLogout}
+        className="w-[200px] h-[48px] rounded  flex gap-2 items-center justify-center bg-gray-600 absolute bottom-6  m-auto cursor-pointer"
+      >
         <svg
           width="20"
           height="20"

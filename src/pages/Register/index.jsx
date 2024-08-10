@@ -1,51 +1,62 @@
-import React, { useState } from "react";
+import React from "react";
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
+import Button from "@mui/material/Button";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import { Formik, Form, Field, ErrorMessage, useFormik } from "formik";
+import * as Yup from "yup";
 
 function Register() {
-  const [passMatch, setPassMatch] = useState();
-  const [email, setEmail] = useState();
-  const [password, setPassword] = useState();
-  const [cpassword, setCpassword] = useState();
-  const [location, setLocation] = useState();
-  const [phone, setPhone] = useState();
   const navigate = useNavigate();
 
-  const handleEmailChange = (e) => {
-    setEmail(e.target.value);
-  };
-  const handlePasswordChange = (e) => {
-    setPassword(e.target.value);
+  const validationSchema = Yup.object().shape({
+    email: Yup.string()
+      .email("Invalid email format")
+      .required("Email is required"),
+    password: Yup.string()
+      .min(6, "Password must be at least 6 characters")
+      .required("Password is required"),
+    cpassword: Yup.string()
+      .oneOf([Yup.ref("password"), null], "Passwords must match")
+      .required("Confirm Password is required"),
+    location: Yup.string().required("Location is required"),
+    phone: Yup.string()
+      .matches(/^[0-9]+$/, "Phone number is not valid")
+      .required("Phone number is required"),
+    acceptedTerms: Yup.boolean().oneOf(
+      [true],
+      "You must accept the Terms and Conditions"
+    ),
+  });
+
+  const initialValues = {
+    email: "",
+    password: "",
+    cpassword: "",
+    location: "",
+    phone: "",
+    acceptedTerms: false,
   };
 
-  const handleCpasswordChange = (e) => {
-    setCpassword(e.target.value);
-  };
-
-  const handlePhoneChange = (e) => {
-    setPhone(e.target.value);
-  };
-  const handleLocationChange = (e) => {
-    setLocation(e.target.value);
-  };
-
-  const handleRegister = (e) => {
-    e.preventDefault();
-    if (cpassword !== password) {
-      setPassMatch("Password must match!");
-    }else if(false){
-
-    }else{
+  const formik = useFormik({
+    initialValues: {
+      email: "",
+      password: "",
+      cpassword: "",
+      location: "",
+      phone: "",
+      acceptedTerms: false,
+    },
+    validationSchema: validationSchema,
+    onSubmit: async (values, { setSubmitting }) => {
       const data = {
-        email: email,
-        password: password,
-        location: location,
-        phone: phone,
-        
+        email: values.email,
+        password: values.password,
+        location: values.location,
+        phone: values.phone,
       };
-  
+
       axios
         .post("http://localhost:5000/api/V1/auth/register", data)
         .then((res) => {
@@ -54,13 +65,16 @@ function Register() {
         })
         .catch((err) => {
           console.log(err);
+        })
+        .finally(() => {
+          setSubmitting(false);
         });
+    },
+  });
 
-    }
-  };
   return (
-    <div className="w-full min-h-screen flex  ">
-      <div className="w-1/2 min-h-screen bg-[#171B36] flex  justify-center items-center">
+    <div className="w-full min-h-screen flex">
+      <div className="w-1/2 min-h-screen bg-[#171B36] flex justify-center items-center">
         <svg
           width="378"
           height="209"
@@ -133,75 +147,124 @@ function Register() {
             <p className="font-bold text-lg">Book Rent</p>
           </div>
           <div className="flex flex-col gap-2">
-            <p className="font-bold">Signup into Book Rent</p>
+            <p className="font-bold">Signup as Owner</p>
             <hr />
           </div>
-          <form onSubmit={handleRegister} className="w-full flex flex-col gap-4">
-            <TextField
-              id="outlined-email-input"
-              label="Email address"
-              type="email"
-              autoComplete="current-email"
-              sx={{ width: "100%" }}
-              onChange={handleEmailChange}
-            />
-            
-
-            <TextField
-              id="outlined-password-input"
-              label="Password"
-              type="password"
-              autoComplete="current-password"
-              onChange={handlePasswordChange}
-              sx={{ width: "100%" }}
-            />
- 
-            <TextField
-              id="outlined-password-input"
-              label="Coniform Password"
-              type="password"
-              sx={{ width: "100%" }}
-              onChange={handleCpasswordChange}
-              //   autoComplete="current-password"
-            />
-            <p className="text-[#FF0000]">{passMatch}</p>
-
-            <TextField
-              id="outlined-location-input"
-              label="Location"
-              type="text"
-              sx={{ width: "100%" }}
-              onChange={handleLocationChange}
-            />
-
-            <TextField
-              id="outlined-phone-input"
-              label="Phone Number"
-              type="tel"
-              onChange={handlePhoneChange}
-              sx={{ width: "100%" }}
-            />
-
-            <div className="flex items-center justify-between mb-6">
-              <label className="flex items-center">
-                <input type="checkbox" className="form-checkbox" />
-                <span className="ml-2 text-gray-700">
-                  I accept the Terms and Conditions
-                </span>
-              </label>
-            </div>
-            <button
-            
-              type="submit"
-              className="w-full bg-blue-500 text-white p-2 rounded hover:bg-blue-600 transition duration-200"
-            >
-              SIGN UP
-            </button>
-          </form>
-          <div className="mt-6 text-center">
+          <Formik
+            initialValues={initialValues}
+            validationSchema={validationSchema}
+            onSubmit={formik.handleSubmit}
+          >
+            {({ isSubmitting }) => (
+              <Form>
+                <div className="flex flex-col gap-4">
+                  <Box>
+                    <TextField
+                      id="outlined-email-input"
+                      label="Email address"
+                      type="email"
+                      sx={{ width: "100%" }}
+                      {...formik.getFieldProps("email")}
+                      error={
+                        formik.touched.email && Boolean(formik.errors.email)
+                      }
+                      helperText={formik.touched.email && formik.errors.email}
+                    />
+                  </Box>
+                  <Box>
+                    <TextField
+                      id="outlined-Password-input"
+                      label="Password"
+                      type="password"
+                      name="password"
+                      sx={{ width: "100%" }}
+                      {...formik.getFieldProps("password")}
+                      error={
+                        formik.touched.password &&
+                        Boolean(formik.errors.password)
+                      }
+                      helperText={
+                        formik.touched.password && formik.errors.password
+                      }
+                    />
+                  </Box>
+                  <Box>
+                    <TextField
+                      id="outlined-cpassword-input"
+                      label="Confirm Password"
+                      type="password"
+                      name="cpassword"
+                      sx={{ width: "100%" }}
+                      {...formik.getFieldProps("cpassword")}
+                      error={
+                        formik.touched.cpassword &&
+                        Boolean(formik.errors.cpassword)
+                      }
+                      helperText={
+                        formik.touched.cpassword && formik.errors.cpassword
+                      }
+                    />
+                  </Box>
+                  <Box>
+                    <TextField
+                      id="outlined-location-input"
+                      label="Location"
+                      name="location"
+                      sx={{ width: "100%" }}
+                      {...formik.getFieldProps("location")}
+                      error={
+                        formik.touched.location &&
+                        Boolean(formik.errors.location)
+                      }
+                      helperText={
+                        formik.touched.location && formik.errors.location
+                      }
+                    />
+                  </Box>
+                  <Box>
+                    <TextField
+                      id="outlined-Phone-input"
+                      label="Phone"
+                      name="phone"
+                      sx={{ width: "100%" }}
+                      {...formik.getFieldProps("phone")}
+                      error={
+                        formik.touched.phone && Boolean(formik.errors.phone)
+                      }
+                      helperText={formik.touched.phone && formik.errors.phone}
+                    />
+                  </Box>
+                  <Box>
+                    <label>
+                      <Field type="checkbox" name="acceptedTerms" />
+                      {"  "}I accept the Terms and Conditions
+                    </label>
+                    <ErrorMessage
+                      name="acceptedTerms"
+                      component="div"
+                      className="text-red-500"
+                    />
+                  </Box>
+                  <Box>
+                    <Button
+                      type="submit"
+                      fullWidth
+                      variant="contained"
+                      color="primary"
+                      disabled={isSubmitting}
+                      sx={{ background: "#00ABFF" }}
+                    >
+                      SIGN UP
+                    </Button>
+                  </Box>
+                </div>
+              </Form>
+            )}
+          </Formik>
+          <div className="mt-1 text-center">
             <p className="text-gray-700">
               Already have an account{" "}
-              <a href="/login" className="text-blue-500">
+              <a href="/login" className="text-[#00ABFF]">
                 Login
               </a>
             </p>

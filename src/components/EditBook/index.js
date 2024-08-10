@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Box from "@mui/material/Box";
 import Modal from "@mui/material/Modal";
 import Button from "@mui/material/Button";
@@ -7,7 +7,7 @@ import TextField from "@mui/material/TextField";
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
-import Select, { SelectChangeEvent } from "@mui/material/Select";
+import Select from "@mui/material/Select";
 import axios from "axios";
 
 const style = {
@@ -27,36 +27,39 @@ const style = {
 };
 
 function EditBook({ open, handleClose, data }) {
+  const [price, setPrice] = useState('');
+  const [availability, setAvailability] = useState('');
+  const [quantity, setQuantity] = useState('');
 
-    console.log("this is the data ",data?.price,data?.availability,data?.quantity,data?.id);
-    
-  const [price, setPrice] = useState(data?.price);
-  const [availability, setAvailability] = useState(data?.availability);
-  const [quantity, setQuantity] = useState(data?.quantity);
+  useEffect(() => {
+    if (data) {
+      setPrice(data.price || '');
+      setQuantity(data.quantity || '');
+      setAvailability(data.availability || '');
+    }
+  }, [data]);
 
   const handleSubmit = async () => {
+    console.log("Submitting with id:", data?.id);
 
-    console.log("id........", data?.id);
-    
     const token = localStorage.getItem("token");
     const formdata = {
       price,
       availability,
       quantity,
     };
-    await axios
-      .put(`http://localhost:5000/api/V1/books/${data?.id}`, formdata, {
+
+    try {
+      const res = await axios.put(`http://localhost:5000/api/V1/books/${data?.id}`, formdata, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
-      })
-      .then((res) => {
-        console.log(res);
-        handleClose()
-      })
-      .catch((err) => {
-        console.log(err);
       });
+      console.log(res);
+      handleClose();
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   return (

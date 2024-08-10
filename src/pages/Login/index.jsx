@@ -1,78 +1,88 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import TextField from "@mui/material/TextField";
 import axios from "axios";
-import LoginRedirect from "../../components/redirect";
-import { jwtDecode } from "jwt-decode";
-
 import { useNavigate } from "react-router-dom";
+import { useFormik } from "formik";
+import * as Yup from "yup";
+import { jwtDecode } from "jwt-decode";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
+
+const validationSchema = Yup.object({
+  email: Yup.string()
+    .email("Invalid email address")
+    .required("Email is required"),
+  password: Yup.string()
+    .min(6, "Password must be at least 6 characters")
+    .required("Password is required"),
+});
 
 function Login() {
-  const [text, setText] = useState();
-  const [email, setEmail] = useState();
-  const [password, setaPassword] = useState();
   const navigate = useNavigate();
 
-  const handleEmailChange = (e) => {
-    setEmail(e.target.value);
-  };
-  const handlePasswordChange = (e) => {
-    setaPassword(e.target.value);
-  };
-  const handleLogin = async (e) => {
-    e.preventDefault();
-    const data = {
-      email: email,
-      password: password,
-    };
+  const formik = useFormik({
+    initialValues: {
+      email: "",
+      password: "",
+      rememberMe: false, // Add rememberMe here
+    },
+    validationSchema: validationSchema,
+    onSubmit: async (values) => {
+      const data = {
+        email: values.email,
+        password: values.password,
+      };
 
-    await axios
-      .post("http://localhost:5000/api/V1/auth/login", data)
-      .then((res) => {
-        console.log(res);
-        localStorage.setItem("token", res.data.token);
-
-        try {
-          const decodedToken = jwtDecode(res.data.token);
-          const userRole = decodedToken.role;
-          console.log("role ", userRole);
-          localStorage.setItem("role", userRole);
-          switch (userRole) {
-            case "admin":
-              navigate("/admin/dashboard");
-              break;
-            case "owner":
-              navigate("/owner/dashboard");
-              break;
-            case "customer":
-              navigate("/customer/dashboard");
-              break;
-            default:
-              navigate("/");
-              break;
+      try {
+        const res = await axios.post(
+          "http://localhost:5000/api/V1/auth/login",
+          data
+        );
+        toast.success(res.data.message)
+        
+        // Store token in localStorage or sessionStorage based on rememberMe
+        setTimeout(() => {
+          
+          if (values.rememberMe) {
+            localStorage.setItem("token", res.data.token);
+          } else {
+            sessionStorage.setItem("token", res.data.token);
           }
-        } catch (error) {
-          console.error("Failed to decode token:", error);
-          navigate("/login");
-        }
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  };
-
-  useEffect(() => {
-    if (localStorage.getItem("role") === "admin") {
-      setText("Login as Book Owner");
-    } else if (localStorage.getItem("role") === "owner") {
-      setText("Login as Admin");
-    } else {
-      setText(" Login into Book Rent");
-    }
-  }, []);
+  
+          try {
+            const decodedToken = jwtDecode(res.data.token);
+            const userRole = decodedToken.role;
+            console.log("role ", userRole);
+            localStorage.setItem("role", userRole);
+            switch (userRole) {
+              case "admin":
+                navigate("/admin/dashboard");
+                break;
+              case "owner":
+                navigate("/owner/dashboard");
+                break;
+              case "customer":
+                navigate("/customer/dashboard");
+                break;
+              default:
+                navigate("/");
+                break;
+            }
+          } catch (error) {
+            console.error("Failed to decode token:", error);
+            navigate("/login");
+          }
+        }, 1000);
+      } catch (err) {  
+        toast.error(err.response.data.error)
+      }
+    },
+  });
 
   return (
-    <div className="w-full min-h-screen flex  ">
-      <div className="w-1/2 min-h-screen bg-[#171B36] flex  justify-center items-center">
+    <div className="w-full min-h-screen flex">
+      <div className="w-1/2 min-h-screen bg-[#171B36] flex justify-center items-center">
         <svg
           width="378"
           height="209"
@@ -109,7 +119,7 @@ function Login() {
 
       <div className="w-1/2 min-h-screen flex flex-col gap-4 justify-center items-center">
         <div className="w-3/4 h-fit p-4 flex flex-col gap-4">
-          <div className="flex gap-4 ">
+          <div className="flex gap-4">
             <svg
               width="60"
               height="33"
@@ -145,17 +155,22 @@ function Login() {
             <p className="font-bold text-lg">Book Rent</p>
           </div>
           <div className="flex flex-col gap-2">
-            <p className="font-bold">{text}</p>
+            <p className="font-bold">Login into Book Rent</p>
             <hr />
           </div>
-          <form onSubmit={handleLogin} className="w-full flex flex-col gap-4">
+          <form
+            onSubmit={formik.handleSubmit}
+            className="w-full flex flex-col gap-4"
+          >
             <TextField
               id="outlined-email-input"
               label="Email address"
               type="email"
               autoComplete="current-email"
               sx={{ width: "100%" }}
-              onChange={handleEmailChange}
+              {...formik.getFieldProps("email")}
+              error={formik.touched.email && Boolean(formik.errors.email)}
+              helperText={formik.touched.email && formik.errors.email}
             />
 
             <TextField
@@ -164,19 +179,24 @@ function Login() {
               type="password"
               autoComplete="current-password"
               sx={{ width: "100%" }}
-              onChange={handlePasswordChange}
+              {...formik.getFieldProps("password")}
+              error={formik.touched.password && Boolean(formik.errors.password)}
+              helperText={formik.touched.password && formik.errors.password}
             />
 
             <div className="flex items-center justify-between mb-6">
               <label className="flex items-center">
-                <input type="checkbox" className="form-checkbox" />
+                <input
+                  type="checkbox"
+                  className="form-checkbox"
+                  {...formik.getFieldProps("rememberMe")}
+                />
                 <span className="ml-2 text-gray-700">Remember me</span>
               </label>
             </div>
             <button
               type="submit"
-              className="w-full bg-blue-500 text-white p-2 rounded hover:bg-blue-600 transition duration-200"
-              // onClick={handleLogin}
+              className="w-full bg-[#00ABFF] text-white p-2 rounded hover:bg-blue-600 transition duration-200"
             >
               LOGIN
             </button>
@@ -184,13 +204,14 @@ function Login() {
           <div className="mt-6 text-center">
             <p className="text-gray-700">
               Haven't got an account?{" "}
-              <a href="/" className="text-blue-500">
+              <a href="/" className="text-[#00ABFF]">
                 Sign up
               </a>
             </p>
           </div>
         </div>
       </div>
+      <ToastContainer />
     </div>
   );
 }

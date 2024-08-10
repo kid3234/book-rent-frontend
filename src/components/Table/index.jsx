@@ -33,11 +33,11 @@ export default function ReactVirtualizedTable({
   columns,
   rows,
   handleOpensee,
-  handleOpenedit
+  handleOpenedit,
+  handleOpenRemove,
+  handleOwnerAproval,
 }) {
   console.log(columns, text);
-
-
 
   const VirtuosoTableComponents = {
     Scroller: React.forwardRef((props, ref) => (
@@ -103,7 +103,7 @@ export default function ReactVirtualizedTable({
                           }
                     }
                     checked={true}
-                    onClick={console.log("clicked .......",row)}
+                    onClick={console.log("clicked .......", row)}
                   />
                 }
                 label={row.availability}
@@ -115,13 +115,23 @@ export default function ReactVirtualizedTable({
                     onClick={() => handleOpensee(row)}
                     sx={{ cursor: "pointer" }}
                   />
-                  <DeleteIcon sx={{ color: "#FF0000", cursor: "pointer" }} />
+                  <DeleteIcon
+                    sx={{ color: "#FF0000", cursor: "pointer" }}
+                    onClick={() => handleOpenRemove(row)}
+                  />
                 </Box>
 
                 {/* <Button variant="contained" sx={{boxShadow: 'none'}}>Contained</Button>
                  */}
-                <div className="px-6 py-1 rounded  bg-[#00ABFF] text-white">
-                  Approved
+                <div
+                  onClick={() => handleOwnerAproval(row?.id)}
+                  className={
+                    row.approved
+                      ? "px-6 py-1 rounded  bg-[#00ABFF] text-white cursor-pointer"
+                      : "px-6 py-1 rounded  bg-[#AFAFAF] text-white cursor-pointer"
+                  }
+                >
+                  {row.approved ? "Approved" : "Approve"}
                 </div>
               </Box>
             ) : column.dataKey === "owneraction" ? (
@@ -131,13 +141,21 @@ export default function ReactVirtualizedTable({
                     onClick={() => handleOpenedit(row)}
                     sx={{ cursor: "pointer" }}
                   />
-                  <DeleteIcon sx={{ color: "#FF0000" }} />
+                  <DeleteIcon
+                    sx={{ color: "#FF0000", cursor: "pointer" }}
+                    onClick={() => handleOpenRemove(row)}
+                  />
                 </Box>
               </Box>
             ) : column.dataKey === "owner" ? (
               <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
-                <Avatar src={row[column.dataKey].image} />
-                <Typography>{row[column.dataKey].email}</Typography>
+                <Avatar
+                  src={row?.image || row?.owner?.image}
+                
+                />
+                <Typography>
+                  {row?.name || row?.owner?.name}
+                </Typography>
               </Box>
             ) : column.dataKey === "bName" ? (
               <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
@@ -150,7 +168,7 @@ export default function ReactVirtualizedTable({
             ) : column.dataKey === "status" ? (
               <StatusToggle
                 checked={row[column.dataKey]}
-                label={row[column.dataKey]  ? "Active" : "Disabled"}
+                label={row[column.dataKey] ? "Active" : "Disabled"}
                 onChange={column.dataKey}
                 status={row[column.dataKey]}
                 id={row.id}

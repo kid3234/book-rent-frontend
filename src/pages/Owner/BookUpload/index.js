@@ -12,7 +12,6 @@ import {
 } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import AddBook from "../../../components/AddBook";
-import { Cloudinary } from "cloudinary-core";
 import axios from "axios";
 import Success from "../../../components/successPopup";
 
@@ -28,10 +27,7 @@ const VisuallyHiddenInput = styled("input")({
   width: 1,
 });
 
-const cloudinary = new Cloudinary({
-  cloud_name: "YOUR_CLOUD_NAME",
-  secure: true,
-});
+
 
 function BookUpload() {
   const [selectedBook, setSelectedBook] = useState("");
@@ -46,10 +42,7 @@ function BookUpload() {
   const handleOpensuc = () => setOpensuc(true);
   const handleClosesuc = () => setOpensuc(false);
 
-  const handleFileChange = (event) => {
-    const files = event.target.files;
-    handleFiles(files);
-  };
+  
 
   const handleFiles = async (files) => {
     try {
@@ -69,6 +62,10 @@ function BookUpload() {
     }
   };
 
+  const handleFileChange = (event) => {
+    const files = event.target.files;
+    handleFiles(files);
+  };
   const handleAddBook = (newBook) => {
     setPOupData(newBook);
 

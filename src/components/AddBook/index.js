@@ -69,6 +69,8 @@ import Modal from "@mui/material/Modal";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import TextField from "@mui/material/TextField";
+import { Select, MenuItem, FormControl, InputLabel } from "@mui/material";
+
 
 const style = {
   position: "absolute",
@@ -130,13 +132,19 @@ function AddBook({ open, handleClose, handleAddBook }) {
             value={author}
             onChange={(e) => setAuthor(e.target.value)}
           />
-          <TextField
-            id="category"
-            label="Category"
-            variant="filled"
-            value={category}
-            onChange={(e) => setCategory(e.target.value)}
-          />
+       <FormControl variant="filled" fullWidth>
+      <InputLabel id="category-label">Category</InputLabel>
+      <Select
+        labelId="category-label"
+        id="category"
+        value={category}
+        onChange={(e) => setCategory(e.target.value)}
+      >
+        <MenuItem value="Fiction">Fiction</MenuItem>
+        <MenuItem value="Self Help">Self Help</MenuItem>
+        <MenuItem value="Business">Business</MenuItem>
+      </Select>
+    </FormControl>
           <Button
             variant="contained"
             disableElevation

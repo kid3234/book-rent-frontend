@@ -7,11 +7,26 @@ import ReactVirtualizedTable from "../../../components/Table";
 import EarningsSummaryChart from "../../../components/lineChart";
 import axios from "axios";
 import EditBook from "../../../components/EditBook";
+import DeletePopup from "../../../components/DeletePopup";
 
 function OwnewDashboard() {
   const [books, setBooks] = useState();
   const [openupdate, setOpenupdate] = useState(false);
   const [book, setBook] = useState();
+  const [opendelete, Setdelete] = useState(false);
+  const [availableBooks,setAvailableBooks]= useState()
+  const handleOpenDelete = (data) => {
+    console.log("oiuytrewq", opendelete);
+
+    Setdelete(true);
+    setBook(data);
+  };
+
+  const handleCloseDelete = () => {
+    Setdelete(false);
+
+    console.log("asdfghjkl", opendelete);
+  };
 
   const handleOpenupdate = (data) => {
     console.log("edit data", data);
@@ -30,8 +45,15 @@ function OwnewDashboard() {
         },
       })
       .then((res) => {
-        console.log(res.data.availableBooks);
-        setBooks(res.data.availableBooks);
+        console.log(res.data);
+        const mappedBooks = res.data.bookStatusData.map((owner, index) => ({
+          ...owner,
+          number: index + 1,
+        }));
+        setBooks(mappedBooks);
+        console.log("data available",res.data?.availableBooks);
+        
+        setAvailableBooks(res.data?.availableBooks)
       })
       .catch((err) => {
         console.log(err);
@@ -46,31 +68,6 @@ function OwnewDashboard() {
     { width: 100, label: "Price", dataKey: "price" },
     { width: 100, label: "Action", dataKey: "owneraction" },
   ];
-
-  const sample = [
-    ["Frozen yoghurt", 159, 6.0, 24, 4.0],
-    ["Ice cream sandwich", 237, 9.0, 37, 4.3],
-    ["Eclair", 262, 16.0, 24, 6.0],
-    ["Cupcake", 305, 3.7, 67, 4.3],
-    ["Gingerbread", 356, 16.0, 49, 3.9],
-  ];
-
-  const rows = Array.from({ length: 200 }, (_, index) => {
-    const randomSelection = sample[Math.floor(Math.random() * sample.length)];
-    return {
-      id: index,
-      number: index + 1,
-      bookname: "Dertogada",
-      bookNo: randomSelection[1],
-      dashstatus: { text: "FREE", checked: Math.random() > 0.5 },
-      owneraction: {
-        name: "John Doe",
-        image: "https://via.placeholder.com/40",
-      },
-
-      price: randomSelection[4],
-    };
-  });
 
   return (
     <div className="w-full min-h-screen bg-[#F0F2FF]">
@@ -121,7 +118,7 @@ function OwnewDashboard() {
               <p className="px-2 py-1 bg-[#F8F7F1]">Today</p>
             </div>
             <div className="w-full px-2">
-              <NewPieChart />
+              <NewPieChart  data={availableBooks}/>
             </div>
           </div>
         </div>
@@ -133,6 +130,7 @@ function OwnewDashboard() {
               text="Live Book Status"
               rows={books}
               handleOpenedit={handleOpenupdate}
+              handleOpenRemove={handleOpenDelete}
             />
           </div>
           <div className="bg-white w-full h-fit">
@@ -143,6 +141,12 @@ function OwnewDashboard() {
       <EditBook
         open={openupdate}
         handleClose={handleCloseOpenupdate}
+        data={book}
+      />
+
+      <DeletePopup
+        handleClose={handleCloseDelete}
+        open={opendelete}
         data={book}
       />
     </div>
