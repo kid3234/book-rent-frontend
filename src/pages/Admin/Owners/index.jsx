@@ -5,7 +5,7 @@ import ReactVirtualizedTable from "../../../components/Table";
 
 import DeletePopup from "../../../components/DeletePopup";
 import axios from "axios";
-import SeeMore from "../../../components/seeMore";
+import SeeMore from "../../../components/SeeMore";
 
 
 function Owners() {

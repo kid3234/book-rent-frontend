@@ -26,7 +26,7 @@ import {
   Switch,
 } from "@mui/material";
 import StatusToggle from "../Toggle";
-import SeeMore from "../seeMore";
+import SeeMore from "../SeeMore";
 
 export default function ReactVirtualizedTable({
   text,
@@ -149,13 +149,8 @@ export default function ReactVirtualizedTable({
               </Box>
             ) : column.dataKey === "owner" ? (
               <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
-                <Avatar
-                  src={row?.image || row?.owner?.image}
-                
-                />
-                <Typography>
-                  {row?.name || row?.owner?.name}
-                </Typography>
+                <Avatar src={row?.image || row?.owner?.image} />
+                <Typography>{row?.name || row?.owner?.name}</Typography>
               </Box>
             ) : column.dataKey === "bName" ? (
               <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
