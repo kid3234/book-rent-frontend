@@ -2,27 +2,32 @@ import React, { useEffect, useState } from "react";
 import SideBar from "../../../components/Sidebar";
 import NaveBar from "../../../components/NaveBar";
 import ReactVirtualizedTable from "../../../components/Table";
-import SeeMore from "../../../components/seeMore";
+
 import DeletePopup from "../../../components/DeletePopup";
 import axios from "axios";
+import SeeMore from "../../../components/seeMore";
+
 
 function Owners() {
-  const [data,setData] = useState()
+  const [data, setData] = useState();
   const [owners, setOwners] = useState([]);
   const [opensee, setOpensee] = React.useState(false);
   const [opendelete, Setdelete] = useState(false);
   const [owner, setOwner] = useState();
 
-const handleOwnerAproval =async (id)=>{
-  const token = localStorage.getItem('token')
-  await axios.patch(`http://localhost:5000/api/V1/users/${id}/approve`,{},{
-    headers:{
-      Authorization:`Bearer ${token}`
-    }
-  })
-}
+  const handleOwnerAproval = async (id) => {
+    const token = localStorage.getItem("token");
+    await axios.patch(
+      `http://localhost:5000/api/V1/users/${id}/approve`,
+      {},
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+  };
   const handleOpenDelete = (data) => {
-
     console.log("oiuytrewq", opendelete);
 
     Setdelete(true);
@@ -35,17 +40,14 @@ const handleOwnerAproval =async (id)=>{
     console.log("asdfghjkl", opendelete);
   };
 
-  
   const handleClosesee = () => setOpensee(false);
-  const handleOpensee = (owner) =>{
-    console.log('this owner',owner);
-    
+  const handleOpensee = (owner) => {
+    console.log("this owner", owner);
+
     setData(owner);
     setOpensee(true);
-  } 
- 
- 
-  
+  };
+
   const columns = [
     { width: 50, label: "No.", dataKey: "number" },
     { width: 120, label: "Owner", dataKey: "owner" },
@@ -64,7 +66,7 @@ const handleOwnerAproval =async (id)=>{
         },
       })
       .then((res) => {
-        console.log('this one mmm',res.data);
+        console.log("this one mmm", res.data);
         const mappedOwners = res.data.map((owner, index) => ({
           ...owner,
           number: index + 1,
@@ -106,4 +108,3 @@ const handleOwnerAproval =async (id)=>{
 }
 
 export default Owners;
-
