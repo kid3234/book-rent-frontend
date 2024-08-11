@@ -40,7 +40,7 @@ function OwnewDashboard() {
     const token = localStorage.getItem("token");
     axios
       .get(
-        "https://book-rent-api-4.onrender.com/api/V1/users/owner/dashboard",
+        "https://book-rent-api.onrender.com/api/V1/users/owner/dashboard",
         {
           headers: {
             Authorization: `Bearer ${token}`,

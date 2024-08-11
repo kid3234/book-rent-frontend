@@ -18,7 +18,7 @@ function Dashboard() {
 
   useEffect(() => {
     const token = localStorage.getItem('token');
-    axios.get("https://book-rent-api-4.onrender.com/api/V1/users/admin/dashboard", {
+    axios.get("https://book-rent-api.onrender.com/api/V1/users/admin/dashboard", {
       headers: {
         Authorization: `Bearer ${token}`
       }
@@ -127,7 +127,7 @@ export default Dashboard;
 
 // useEffect(()=>{
 //   const token = localStorage.getItem('token')
-//   axios.get("https://book-rent-api-4.onrender.com/api/V1/users/admin/dashboard",{
+//   axios.get("https://book-rent-api.onrender.com/api/V1/users/admin/dashboard",{
 //     headers:{
 //       Authorization:`Bearer ${token}`
 //     }
