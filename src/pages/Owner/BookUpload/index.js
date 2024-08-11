@@ -80,13 +80,13 @@ function BookUpload() {
      
 
     axios
-      .post("https://book-rent-api.onrender.com//api/V1/books", data, {
+      .post("https://book-rent-api.onrender.com/api/V1/books", data, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
       })
       .then((res) => {
-        console.log("book ", res.data);
+        console.log("book  upload", res.data);
         handleOpensuc();
       })
       .catch((err) => {
