@@ -103,51 +103,49 @@ const CustomLegend = (props) => {
 
   return (
     <Box
-      sx={{
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "start",
-        paddingLeft: 10,
-        gap: 1,
-        paddingTop: 2,
-        width: "100%",
-      }}
+  sx={{
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "start",
+    paddingLeft: 10,
+    gap: 1,
+    paddingTop: 2,
+    width: "100%",
+  }}
+>
+  {payload?.map((entry, index) => (
+    <Box
+      key={`item-${index}`}
+      sx={{ display: "flex", alignItems: "center", marginBottom: 0.5, width: "100%" }}
     >
-      {payload?.map((entry, index) => (
-        <Box
-          key={`item-${index}`}
-          sx={{ display: "flex", alignItems: "center", marginBottom: 0.5 }}
-        >
-          <Box
-            sx={{
-              width: 15,
-              height: 15,
-              backgroundColor: entry.payload.color,
-              borderRadius: "50%",
-              marginRight: 1,
-              display: "flex",
-              gap: 4,
-              justifyContent: "space-between",
-             
-            }}
-          />
-          <Box
-            sx={{
-              display: "flex",
-              alignItems: "center",
-              gap: 10,
-              justifyContent: "space-between", 
-              width: "100%", 
-            }}
-          >
-            <Typography variant="body2" sx={{ marginRight: 1 }}>
-              {entry.payload.category}
-            </Typography>
-            <Typography variant="body2">{entry.payload.value}</Typography>
-          </Box>
-        </Box>
-      ))}
+      <Box
+        sx={{
+          width: 15,
+          height: 15,
+          backgroundColor: entry.payload.color,
+          borderRadius: "50%",
+          marginRight: 1,
+        }}
+      />
+
+      <Box
+        sx={{
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+          width: "100%", // Ensure full width for space-between to work
+        }}
+      >
+        <Typography variant="body2">
+          {entry.payload.category}
+        </Typography>
+        <Typography variant="body2">
+          {entry.payload.value}
+        </Typography>
+      </Box>
     </Box>
+  ))}
+</Box>
   );
 };
 
