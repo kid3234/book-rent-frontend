@@ -23,7 +23,7 @@ function SideBar() {
   }, []);
 
   return (
-    <div className="bg-[#171B36] rounded-lg min-h-[95%] w-[240px] fixed left-2 top-4 text-[#FFFF] p-4 flex flex-col gap-8 z-50 transition-transform transform -translate-x-full md:translate-x-0 md:left-0">
+    <div className="bg-[#171B36] rounded-lg min-h-[95%] w-[240px] fixed left-6 top-4 text-[#FFFF] p-4 flex flex-col gap-8 z-50 transition-transform transform -translate-x-full md:translate-x-0 md:left-0">
       <div className="flex gap-4 items-center">
         <svg
           width="18"

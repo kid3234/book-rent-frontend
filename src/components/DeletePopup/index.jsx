@@ -25,9 +25,11 @@ export default function DeletePopup({ open, handleClose, data }) {
       })
       .then((res) => {
         toast.success(res.data.message)
+        handleClose()
       })
       .catch((err) => {
         toast.error(err.response.data.error)
+        handleClose()
       });
   };
   return (
