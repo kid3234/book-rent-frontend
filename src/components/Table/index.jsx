@@ -26,7 +26,7 @@ import {
   Switch,
 } from "@mui/material";
 import StatusToggle from "../Toggle";
-import SeeMore from "../SeeMore";
+
 
 export default function ReactVirtualizedTable({
   text,
