@@ -78,6 +78,8 @@ function ProfilePage() {
           },
         }
       );
+      console.log("hii");
+      
       toast.success(res.data.message)
     } catch (err) {
       toast.error(err.response.data.error)
