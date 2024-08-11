@@ -93,12 +93,12 @@ export default function ReactVirtualizedTable({
                       row.availability === "RENTED"
                         ? {
                             "&.Mui-checked": {
-                              color: "#FF0000", // Default fill color when checked
+                              color: "#FF0000", 
                             },
                           }
                         : {
                             "&.Mui-checked": {
-                              color: "#00ABFF", // Default fill color when checked
+                              color: "#00ABFF", 
                             },
                           }
                     }
@@ -121,8 +121,7 @@ export default function ReactVirtualizedTable({
                   />
                 </Box>
 
-                {/* <Button variant="contained" sx={{boxShadow: 'none'}}>Contained</Button>
-                 */}
+               
                 <div
                   onClick={() => handleOwnerAproval(row?.id)}
                   className={
@@ -177,25 +176,25 @@ export default function ReactVirtualizedTable({
     );
   }
 
-  // Handlers for the functionalities
+  
   const handleSearch = () => {
     console.log("Search functionality triggered.");
-    // Add search functionality here
+ 
   };
 
   const handleFilterSort = () => {
     console.log("Filter/Sort functionality triggered.");
-    // Add filter/sort functionality here
+    
   };
 
   const handleListViewToggle = () => {
     console.log("List/Grid view toggle triggered.");
-    // Add view toggle functionality here
+ 
   };
 
   const handleSettings = () => {
     console.log("Settings functionality triggered.");
-    // Add settings functionality here
+  
   };
 
   return (
@@ -253,29 +252,3 @@ export default function ReactVirtualizedTable({
   );
 }
 
-// function rowContentt(_index, row) {
-//   return (
-//     <React.Fragment>
-//       {columns.map((column) => (
-//         <TableCell key={column.dataKey} align={"left"}>
-//           {column.dataKey === "action" ? (
-//             <Box sx={{ display: "flex", justifyContent: "space-between" }}>
-//               <Box sx={{ display: "flex", gap: 2 }}>
-//                 <RemoveRedEyeIcon
-//                   onClick={handleOpensee}
-//                   sx={{ cursor: "pointer" }}
-//                 />
-//                 <DeleteIcon sx={{ color: "#FF0000", cursor: "pointer" }} />
-//               </Box>
-//               <div className="px-6 py-1 rounded bg-[#00ABFF] text-white">
-//                 Approved
-//               </div>
-//             </Box>
-//           ) : (
-//             row[column.dataKey]
-//           )}
-//         </TableCell>
-//       ))}
-//     </React.Fragment>
-//   );
-// }

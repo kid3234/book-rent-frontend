@@ -5,9 +5,8 @@ import { useNavigate } from "react-router-dom";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { jwtDecode } from "jwt-decode";
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
-
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const validationSchema = Yup.object({
   email: Yup.string()
@@ -25,7 +24,7 @@ function Login() {
     initialValues: {
       email: "",
       password: "",
-      rememberMe: false, // Add rememberMe here
+      rememberMe: false,
     },
     validationSchema: validationSchema,
     onSubmit: async (values) => {
@@ -39,17 +38,15 @@ function Login() {
           "https://book-rent-api-1.onrender.com/api/V1/auth/login",
           data
         );
-        toast.success(res.data.message)
-        
-        // Store token in localStorage or sessionStorage based on rememberMe
+        toast.success(res.data.message);
+
         setTimeout(() => {
-          
           if (values.rememberMe) {
             localStorage.setItem("token", res.data.token);
           } else {
             sessionStorage.setItem("token", res.data.token);
           }
-  
+
           try {
             const decodedToken = jwtDecode(res.data.token);
             const userRole = decodedToken.role;
@@ -74,8 +71,8 @@ function Login() {
             navigate("/login");
           }
         }, 1000);
-      } catch (err) {  
-        toast.error(err.response.data.error)
+      } catch (err) {
+        toast.error(err.response.data.error);
       }
     },
   });

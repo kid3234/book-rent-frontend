@@ -5,7 +5,6 @@ import ReactVirtualizedTable from "../../../components/Table";
 
 import DeletePopup from "../../../components/DeletePopup";
 import axios from "axios";
-// import SeeMore from "../../../components/SeeMore";
 import Box from "@mui/material/Box";
 import Modal from "@mui/material/Modal";
 import TextField from "@mui/material/TextField";
@@ -26,7 +25,6 @@ const style = {
   gap: 4,
   borderRadius: 4,
 };
-
 
 function Owners() {
   const [data, setData] = useState();
@@ -116,76 +114,74 @@ function Owners() {
           />
         </div>
       </div>
-
-      {/* <SeeMore data={data} handleClose={handleClosesee} open={opensee} /> */}
       <DeletePopup
         handleClose={handleCloseDelete}
         open={opendelete}
         data={owner}
       />
-       <Modal
-      keepMounted
-      open={opensee}
-      onClose={handleClosesee}
-      aria-labelledby="keep-mounted-modal-title"
-      aria-describedby="keep-mounted-modal-description"
-    >
-      <Box sx={style}>
-        <Box
-          component="form"
-          sx={{
-            "& > :not(style)": { m: 1, width: "100%" },
-          }}
-          noValidate
-          autoComplete="off"
-        >
-          <TextField
-            id="name"
-            label="Name"
-            value={data?.name}
-            InputProps={{
-              readOnly: true,
+      <Modal
+        keepMounted
+        open={opensee}
+        onClose={handleClosesee}
+        aria-labelledby="keep-mounted-modal-title"
+        aria-describedby="keep-mounted-modal-description"
+      >
+        <Box sx={style}>
+          <Box
+            component="form"
+            sx={{
+              "& > :not(style)": { m: 1, width: "100%" },
             }}
-            InputLabelProps={{
-              shrink: true,
-            }}
-          />
-          <TextField
-            id="email"
-            label="Email address"
-            value={data?.email}
-            InputProps={{
-              readOnly: true,
-            }}
-            InputLabelProps={{
-              shrink: true,
-            }}
-          />
-          <TextField
-            id="location"
-            label="Location"
-            value={data?.location}
-            InputProps={{
-              readOnly: true,
-            }}
-            InputLabelProps={{
-              shrink: true,
-            }}
-          />
-          <TextField
-            id="phone"
-            label="Phone Number"
-            value={data?.phone}
-            InputProps={{
-              readOnly: true,
-            }}
-            InputLabelProps={{
-              shrink: true,
-            }}
-          />
+            noValidate
+            autoComplete="off"
+          >
+            <TextField
+              id="name"
+              label="Name"
+              value={data?.name}
+              InputProps={{
+                readOnly: true,
+              }}
+              InputLabelProps={{
+                shrink: true,
+              }}
+            />
+            <TextField
+              id="email"
+              label="Email address"
+              value={data?.email}
+              InputProps={{
+                readOnly: true,
+              }}
+              InputLabelProps={{
+                shrink: true,
+              }}
+            />
+            <TextField
+              id="location"
+              label="Location"
+              value={data?.location}
+              InputProps={{
+                readOnly: true,
+              }}
+              InputLabelProps={{
+                shrink: true,
+              }}
+            />
+            <TextField
+              id="phone"
+              label="Phone Number"
+              value={data?.phone}
+              InputProps={{
+                readOnly: true,
+              }}
+              InputLabelProps={{
+                shrink: true,
+              }}
+            />
+          </Box>
         </Box>
-      </Box>
-    </Modal>
+      </Modal>
     </div>
   );
 }

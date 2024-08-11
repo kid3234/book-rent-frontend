@@ -32,7 +32,7 @@ const LoginRedirect = ({ token }) => {
       }
     }, [token, navigate]);
   
-    return null; // This component doesn't render anything
+    return null; 
   };
 
   export default LoginRedirect

@@ -36,7 +36,7 @@ function BookUpload() {
   const [quantity, setQuantity] = useState();
   const [POPUPData, setPOupData] = useState();
   const [image, setImage] = useState();
-  const [isUploading, setIsUploading] = useState(false); // New state for upload progress
+  const [isUploading, setIsUploading] = useState(false);
   const [opensuc, setOpensuc] = useState(false);
 
   const handleOpensuc = () => setOpensuc(true);
@@ -44,7 +44,7 @@ function BookUpload() {
 
   const handleFiles = async (files) => {
     try {
-      setIsUploading(true); // Start upload progress
+      setIsUploading(true);
       const formData = new FormData();
       formData.append("file", files[0]);
       formData.append("upload_preset", "santimevent");
@@ -54,10 +54,10 @@ function BookUpload() {
         formData
       );
       setImage(response.data.secure_url);
-      setIsUploading(false); // End upload progress
+      setIsUploading(false);
       console.log("event image ....", response.data.secure_url);
     } catch (error) {
-      setIsUploading(false); // End upload progress on error
+      setIsUploading(false);
       console.error("Error uploading file:", error);
     }
   };
@@ -69,15 +69,13 @@ function BookUpload() {
 
   const handleAddBook = (newBook) => {
     setPOupData(newBook);
-    // Send new book data to backend
   };
 
   const handleSubmit = () => {
     const token = localStorage.getItem("token");
 
     const data = { ...POPUPData, price, quantity, image };
-     console.log("this is the data",data);
-     
+    console.log("this is the data", data);
 
     axios
       .post("https://book-rent-api-1.onrender.com/api/V1/books", data, {
@@ -239,7 +237,6 @@ function BookUpload() {
               <VisuallyHiddenInput type="file" />
             </Button>
 
-            {/* Image preview or loading indicator */}
             {isUploading ? (
               <CircularProgress />
             ) : (
@@ -278,7 +275,11 @@ function BookUpload() {
         </div>
       </div>
 
-      <AddBook open={open} handleClose={handleClose} handleAddBook={handleAddBook} />
+      <AddBook
+        open={open}
+        handleClose={handleClose}
+        handleAddBook={handleAddBook}
+      />
 
       <Success handleClose={handleClosesuc} open={opensuc} />
     </div>

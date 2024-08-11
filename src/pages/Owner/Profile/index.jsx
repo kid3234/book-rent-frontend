@@ -13,8 +13,8 @@ import SideBar from "../../../components/Sidebar";
 import NaveBar from "../../../components/NaveBar";
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 import axios from "axios";
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const VisuallyHiddenInput = styled("input")({
   clip: "rect(0 0 0 0)",
@@ -79,10 +79,10 @@ function ProfilePage() {
         }
       );
       console.log("hii");
-      
-      toast.success(res.data.message)
+
+      toast.success(res.data.message);
     } catch (err) {
-      toast.error(err.response.data.error)
+      toast.error(err.response.data.error);
     }
   };
 
@@ -184,7 +184,7 @@ function ProfilePage() {
           </Container>
         </Grid>
       </Grid>
-        <ToastContainer />
+      <ToastContainer />
     </div>
   );
 }
