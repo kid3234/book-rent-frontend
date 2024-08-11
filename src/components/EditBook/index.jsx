@@ -28,7 +28,7 @@ const style = {
   gap: 4,
 };
 
-function EditBook({ open, handleClose, data }) {
+function EditBook({ open, handleClose, data,refreshList }) {
   const [price, setPrice] = useState('');
   const [availability, setAvailability] = useState('');
   const [quantity, setQuantity] = useState('');
@@ -52,13 +52,14 @@ function EditBook({ open, handleClose, data }) {
     };
 
     try {
-      const res = await axios.put(`https://book-rent-api-1.onrender.com/api/V1/books/${data?.id}`, formdata, {
+      const res = await axios.put(`https://book-rent-api.onrender.com/api/V1/books/${data?.id}`, formdata, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
       });
       toast.success(res.data.message)
       handleClose();
+      refreshList()
     } catch (err) {
       toast.error(err.response.data.error)
     }

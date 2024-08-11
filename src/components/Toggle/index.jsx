@@ -5,7 +5,7 @@ import { useLocation } from "react-router-dom";
 import axios from "axios";
 
 import { Box, Typography, Switch } from "@mui/material";
-const StatusToggle = ({ checked, label, onChange, status, id }) => {
+const StatusToggle = ({ checked, label, onChange, status, id,refreshList }) => {
   console.log(status, label, onChange, checked, id);
 
   const [check, setCheck] = useState(checked);
@@ -13,7 +13,6 @@ const StatusToggle = ({ checked, label, onChange, status, id }) => {
 
   const path = location.pathname.split("/")[2];
 
-  console.log("check ", check);
 
   const togglecheck = () => {
     setCheck((prev) => !prev);
@@ -23,8 +22,8 @@ const StatusToggle = ({ checked, label, onChange, status, id }) => {
     const token = localStorage.getItem("token");
     const URL =
       path === "books"
-        ? `https://book-rent-api-1.onrender.com/api/V1/books/${id}/approve`
-        : `https://book-rent-api-1.onrender.com/api/V1/users/${id}/status`;
+        ? `https://book-rent-api.onrender.com/api/V1/books/${id}/approve`
+        : `https://book-rent-api.onrender.com/api/V1/users/${id}/status`;
     await axios.patch(
       URL,
       {},
@@ -33,7 +32,11 @@ const StatusToggle = ({ checked, label, onChange, status, id }) => {
           Authorization: `Bearer ${token}`,
         },
       }
-    );
+    ).then((res)=>{
+      refreshList()
+    }).catch((err)=>{
+
+    });
     togglecheck();
   };
 

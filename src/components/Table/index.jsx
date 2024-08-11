@@ -4,7 +4,7 @@ import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
 import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
-import Button from "@mui/material/Button";
+
 
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
@@ -23,7 +23,7 @@ import {
   IconButton,
   SvgIcon,
   Stack,
-  Switch,
+
 } from "@mui/material";
 import StatusToggle from "../Toggle";
 
@@ -36,6 +36,7 @@ export default function ReactVirtualizedTable({
   handleOpenedit,
   handleOpenRemove,
   handleOwnerAproval,
+  refreshList
 }) {
   console.log(columns, text);
 
@@ -166,6 +167,7 @@ export default function ReactVirtualizedTable({
                 onChange={column.dataKey}
                 status={row[column.dataKey]}
                 id={row.id}
+                refreshList={refreshList}
               />
             ) : (
               row[column.dataKey]

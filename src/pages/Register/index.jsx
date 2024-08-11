@@ -32,7 +32,7 @@ const validationSchema = Yup.object({
 function Register() {
   const navigate = useNavigate();
 
-  // Formik setup
+
   const formik = useFormik({
     initialValues: {
       email: "",
@@ -52,11 +52,11 @@ function Register() {
       };
 
       try {
-      const res =  await axios.post("https://book-rent-api-1.onrender.com/api/V1/auth/register", data);
+      const res =  await axios.post("https://book-rent-api.onrender.com/api/V1/auth/register", data);
       toast.success(res.data.message)
         navigate("/login");
       } catch (err) {
-        console.log(err);
+      
         toast.error(err.response.data.error)
       } finally {
         setSubmitting(false);

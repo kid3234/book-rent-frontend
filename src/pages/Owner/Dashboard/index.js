@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import SideBar from "../../../components/Sidebar";
 import NaveBar from "../../../components/NaveBar";
-
 import NewPieChart from "../../../components/PieChart";
 import ReactVirtualizedTable from "../../../components/Table";
 import EarningsSummaryChart from "../../../components/lineChart";
@@ -10,37 +9,34 @@ import EditBook from "../../../components/EditBook";
 import DeletePopup from "../../../components/DeletePopup";
 
 function OwnewDashboard() {
-  const [books, setBooks] = useState();
+  const [books, setBooks] = useState([]);
   const [openupdate, setOpenupdate] = useState(false);
-  const [book, setBook] = useState();
+  const [book, setBook] = useState(null);
   const [opendelete, Setdelete] = useState(false);
-  const [availableBooks, setAvailableBooks] = useState();
-  const handleOpenDelete = (data) => {
-    console.log("oiuytrewq", opendelete);
+  const [availableBooks, setAvailableBooks] = useState([]);
 
+  const handleOpenDelete = (data) => {
     Setdelete(true);
     setBook(data);
   };
 
   const handleCloseDelete = () => {
     Setdelete(false);
-
-    console.log("asdfghjkl", opendelete);
+    setBook(null);
   };
 
   const handleOpenupdate = (data) => {
-    console.log("edit data", data);
-
     setOpenupdate(true);
     setBook(data);
   };
+
   const handleCloseOpenupdate = () => setOpenupdate(false);
 
-  useEffect(() => {
+  const refreshList = () => {
     const token = localStorage.getItem("token");
     axios
       .get(
-        "https://book-rent-api-1.onrender.com/api/V1/users/owner/dashboard",
+        "https://book-rent-api.onrender.com/api/V1/users/owner/dashboard",
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -48,19 +44,20 @@ function OwnewDashboard() {
         }
       )
       .then((res) => {
-        console.log(res.data);
         const mappedBooks = res.data.bookStatusData.map((owner, index) => ({
           ...owner,
           number: index + 1,
         }));
         setBooks(mappedBooks);
-        console.log("data available", res.data?.availableBooks);
-
         setAvailableBooks(res.data?.availableBooks);
       })
       .catch((err) => {
-        console.log(err);
+        console.error(err);
       });
+  };
+
+  useEffect(() => {
+    refreshList();
   }, []);
 
   const columns = [
@@ -121,7 +118,7 @@ function OwnewDashboard() {
 
           <div className="s:w-1/2 w-full shadow-md p-2 flex flex-col gap-1">
             <div className="flex justify-between items-center">
-              <p>Availabele Books</p>
+              <p>Available Books</p>
               <p className="px-2 py-1 bg-[#F8F7F1]">Today</p>
             </div>
             <div className="w-full px-2">
@@ -149,12 +146,14 @@ function OwnewDashboard() {
         open={openupdate}
         handleClose={handleCloseOpenupdate}
         data={book}
+        refreshList={refreshList}
       />
 
       <DeletePopup
         handleClose={handleCloseDelete}
         open={opendelete}
         data={book}
+        refreshList={refreshList}  
       />
     </div>
   );

@@ -9,12 +9,12 @@ const [books,setBooks] = useState()
 
 useEffect(()=>{
   const token = localStorage.getItem('token')
-  axios.get('https://book-rent-api-1.onrender.com/api/V1/users/admin/books',{
+  axios.get('https://book-rent-api.onrender.com/api/V1/users/admin/books',{
     headers:{
       Authorization: `Bearer ${token}`
     }
   }).then((res)=>{
-    console.log(res);
+
     const mappedBooks = res.data.map((book, index) => ({
       ...book,
       number: index + 1,
@@ -23,7 +23,7 @@ useEffect(()=>{
     setBooks(mappedBooks);
     
   }).catch((err)=>{
-    console.log(err);
+  
     
   })
 },[])

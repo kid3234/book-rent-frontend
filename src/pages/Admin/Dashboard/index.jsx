@@ -18,7 +18,7 @@ function Dashboard() {
 
   useEffect(() => {
     const token = localStorage.getItem('token');
-    axios.get("https://book-rent-api-1.onrender.com/api/V1/users/admin/dashboard", {
+    axios.get("https://book-rent-api.onrender.com/api/V1/users/admin/dashboard", {
       headers: {
         Authorization: `Bearer ${token}`
       }
@@ -29,7 +29,7 @@ function Dashboard() {
       }));
       setBooks(mappedBooks);
     }).catch((err) => {
-      console.log("error", err);
+    
     });
   }, []);
 

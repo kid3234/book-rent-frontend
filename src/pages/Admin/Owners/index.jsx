@@ -8,6 +8,8 @@ import axios from "axios";
 import Box from "@mui/material/Box";
 import Modal from "@mui/material/Modal";
 import TextField from "@mui/material/TextField";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const style = {
   position: "absolute",
@@ -33,52 +35,12 @@ function Owners() {
   const [opendelete, Setdelete] = useState(false);
   const [owner, setOwner] = useState();
 
-  const handleOwnerAproval = async (id) => {
-    const token = localStorage.getItem("token");
-    await axios.patch(
-      `https://book-rent-api-1.onrender.com/api/V1/users/${id}/approve`,
-      {},
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      }
-    );
-  };
-  const handleOpenDelete = (data) => {
-    console.log("oiuytrewq", opendelete);
 
-    Setdelete(true);
-    setOwner(data);
-  };
 
-  const handleCloseDelete = () => {
-    Setdelete(false);
-
-    console.log("asdfghjkl", opendelete);
-  };
-
-  const handleClosesee = () => setOpensee(false);
-  const handleOpensee = (owner) => {
-    console.log("this owner", owner);
-
-    setData(owner);
-    setOpensee(true);
-  };
-
-  const columns = [
-    { width: 50, label: "No.", dataKey: "number" },
-    { width: 120, label: "Owner", dataKey: "owner" },
-    { width: 80, label: "Upload", dataKey: "booksCount" },
-    { width: 120, label: "Location", dataKey: "location" },
-    { width: 100, label: "Status", dataKey: "status" },
-    { width: 120, label: "Action", dataKey: "action" },
-  ];
-
-  useEffect(() => {
+  const refreshList = () =>{
     const token = localStorage.getItem("token");
     axios
-      .get("https://book-rent-api-1.onrender.com/api/V1/users/admin/owners", {
+      .get("https://book-rent-api.onrender.com/api/V1/users/admin/owners", {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -95,6 +57,56 @@ function Owners() {
       .catch((err) => {
         console.log(err);
       });
+  }
+
+  const handleOwnerAproval = async (id) => {
+    const token = localStorage.getItem("token");
+    await axios.patch(
+      `https://book-rent-api.onrender.com/api/V1/users/${id}/approve`,
+      {},
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    ).then((res)=>{
+      toast.success(res.data.message)
+      refreshList()
+    }).catch((err)=>{
+      toast.error(err.response.data.error)
+    });
+  };
+  const handleOpenDelete = (data) => {
+    
+
+    Setdelete(true);
+    setOwner(data);
+  };
+
+  const handleCloseDelete = () => {
+    Setdelete(false);
+
+  };
+
+  const handleClosesee = () => setOpensee(false);
+  const handleOpensee = (owner) => {
+    setData(owner);
+    setOpensee(true);
+  };
+
+  const columns = [
+    { width: 50, label: "No.", dataKey: "number" },
+    { width: 120, label: "Owner", dataKey: "owner" },
+    { width: 80, label: "Upload", dataKey: "booksCount" },
+    { width: 120, label: "Location", dataKey: "location" },
+    { width: 100, label: "Status", dataKey: "status" },
+    { width: 120, label: "Action", dataKey: "action" },
+  ];
+
+ 
+
+  useEffect(() => {
+    refreshList()
   }, []);
 
   return (
@@ -111,6 +123,7 @@ function Owners() {
             handleOpensee={handleOpensee}
             handleOpenRemove={handleOpenDelete}
             handleOwnerAproval={handleOwnerAproval}
+            refreshList={refreshList}
           />
         </div>
       </div>
@@ -118,6 +131,7 @@ function Owners() {
         handleClose={handleCloseDelete}
         open={opendelete}
         data={owner}
+        refreshList={refreshList}
       />
       <Modal
         keepMounted
@@ -182,6 +196,7 @@ function Owners() {
           </Box>
         </Box>
       </Modal>
+      <ToastContainer />
     </div>
   );
 }
