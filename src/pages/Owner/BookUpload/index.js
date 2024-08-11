@@ -80,7 +80,7 @@ function BookUpload() {
      
 
     axios
-      .post("https://book-rent-api.onrender.com/api/V1/books", data, {
+      .post("https://book-rent-api-1.onrender.com/api/V1/books", data, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -104,7 +104,7 @@ function BookUpload() {
     if (value.length > 2) {
       try {
         const response = await axios.get(
-          `https://book-rent-api.onrender.com/api/V1/books/filter?value=${value}`,
+          `https://book-rent-api-1.onrender.com/api/V1/books/filter?value=${value}`,
           {
             headers: {
               Authorization: `Bearer ${token}`,

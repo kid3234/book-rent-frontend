@@ -38,7 +38,7 @@ function Owners() {
   const handleOwnerAproval = async (id) => {
     const token = localStorage.getItem("token");
     await axios.patch(
-      `https://book-rent-api.onrender.com/api/V1/users/${id}/approve`,
+      `https://book-rent-api-1.onrender.com/api/V1/users/${id}/approve`,
       {},
       {
         headers: {
@@ -80,7 +80,7 @@ function Owners() {
   useEffect(() => {
     const token = localStorage.getItem("token");
     axios
-      .get("https://book-rent-api.onrender.com/api/V1/users/admin/owners", {
+      .get("https://book-rent-api-1.onrender.com/api/V1/users/admin/owners", {
         headers: {
           Authorization: `Bearer ${token}`,
         },

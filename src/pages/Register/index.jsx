@@ -52,7 +52,7 @@ function Register() {
       };
 
       try {
-      const res =  await axios.post("https://book-rent-api.onrender.com/api/V1/auth/register", data);
+      const res =  await axios.post("https://book-rent-api-1.onrender.com/api/V1/auth/register", data);
       toast.success(res.data.message)
         navigate("/login");
       } catch (err) {
@@ -320,7 +320,7 @@ export default Register;
 //       console.log("this ", data);
 
 //       axios
-//         .post("https://book-rent-api.onrender.com/api/V1/auth/register", data)
+//         .post("https://book-rent-api-1.onrender.comapi/V1/auth/register", data)
 //         .then((res) => {
 //           console.log(res);
 //           navigate("/login");
@@ -611,7 +611,7 @@ export default Register;
 //     console.log("Submitted data:", data);
 
 //     try {
-//       const res = await axios.post("https://book-rent-api.onrender.com/api/V1/auth/register", data);
+//       const res = await axios.post("https://book-rent-api-1.onrender.comapi/V1/auth/register", data);
 //       console.log("Response:", res);
 //       navigate("/login");
 //     } catch (err) {
