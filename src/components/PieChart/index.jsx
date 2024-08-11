@@ -96,7 +96,6 @@ import React from "react";
 import { PieChart, Pie, Cell, Legend } from "recharts";
 import { Box, Typography } from "@mui/material";
 
-// Define a list of colors to use for the pie chart
 const COLORS = ["#006AFF", "#52C93F", "#FF2727", "#FFD700", "#8A2BE2"];
 
 const CustomLegend = (props) => {
@@ -108,9 +107,9 @@ const CustomLegend = (props) => {
         display: "flex",
         flexDirection: "column",
         alignItems: "start",
-        paddingLeft: 12,
+        paddingLeft: 10,
         gap: 1,
-        paddingTop: 4,
+        paddingTop: 2,
         width: "100%",
       }}
     >
@@ -128,14 +127,17 @@ const CustomLegend = (props) => {
               marginRight: 1,
               display: "flex",
               gap: 4,
+              justifyContent: "space-between",
+             
             }}
           />
           <Box
             sx={{
               display: "flex",
               alignItems: "center",
-              gap: 4,
-              justifyContent: "space-between",
+              gap: 10,
+              justifyContent: "space-between", 
+              width: "100%", 
             }}
           >
             <Typography variant="body2" sx={{ marginRight: 1 }}>
@@ -150,10 +152,10 @@ const CustomLegend = (props) => {
 };
 
 export default function NewPieChart({ data }) {
-  // Ensure all property names are consistent
   const dataWithColors = data?.map((item, index) => ({
     ...item,
-    color: COLORS[index % COLORS.length], // Assign color based on index
+    value: Number(item.value),
+    color: COLORS[index % COLORS.length],
   }));
 
   return (
@@ -166,14 +168,14 @@ export default function NewPieChart({ data }) {
         width: "60%",
       }}
     >
-      <Box sx={{ marginBottom: 2 }}>
-        <PieChart width={260} height={260}>
+      <Box sx={{ marginBottom: 1 }}>
+        <PieChart width={280} height={230}>
           <Pie
             data={dataWithColors}
             cx="50%"
             cy="50%"
-            innerRadius={50}
-            outerRadius={80}
+            innerRadius={40}
+            outerRadius={60}
             dataKey="value"
             nameKey="category" // Correctly map category for names
           >
@@ -187,4 +189,3 @@ export default function NewPieChart({ data }) {
     </Box>
   );
 }
-

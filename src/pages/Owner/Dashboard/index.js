@@ -39,11 +39,14 @@ function OwnewDashboard() {
   useEffect(() => {
     const token = localStorage.getItem("token");
     axios
-      .get("https://book-rent-api-4.onrender.com/api/V1/users/owner/dashboard", {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      })
+      .get(
+        "https://book-rent-api-4.onrender.com/api/V1/users/owner/dashboard",
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      )
       .then((res) => {
         console.log(res.data);
         const mappedBooks = res.data.bookStatusData.map((owner, index) => ({
@@ -74,16 +77,16 @@ function OwnewDashboard() {
       <SideBar />
       <NaveBar />
       <div className="w-full min-h-screen pl-10 lg:pl-72 pr-4 pt-20 flex flex-col lg:flex-row gap-4">
-        <div className="bg-white w-[100%] lg:w-[300px] p-2 rounded-md sm-h-fit lg:h-[660px] flex lg:flex-col flex-row gap-6 lg:justify-center justify-between sm:px-10 text-[#525256] relative">
-          <div className="h-1/2 flex flex-col gap-10 pt-6">
-            <div className="">
+        <div className="bg-white w-[100%] lg:w-[300px] p-2 rounded-md s:h-fit lg:h-[640px] flex lg:flex-col flex-row gap-4 lg:justify-center justify-between s:px-10 text-[#525256]">
+          <div className="h-fit flex flex-col gap-6 pt-2">
+            <div className="w-full flex flex-col px-2 align-middle">
               <p className="font-semibold">This Month Statistics</p>
               <p className="text-sm text-gray-400">
                 Tue, 14 Nov, 2024, 11:30 AM
               </p>
             </div>
 
-            <div className="shadow-md p-4 flex flex-col gap-2">
+            <div className="w-full shadow-md p-4 flex flex-col gap-2">
               <div className="flex justify-between items-center bg-white ">
                 <p className="font-bold text-[#656575]">Income</p>
                 <div className="bg-[#F4F5F7] px-2 p-1">This Month</div>
@@ -116,7 +119,7 @@ function OwnewDashboard() {
             </div>
           </div>
 
-          <div className="s:w-1/2 shadow-md p-4 flex flex-col gap-2">
+          <div className="s:w-1/2 w-full shadow-md p-2 flex flex-col gap-1">
             <div className="flex justify-between items-center">
               <p>Availabele Books</p>
               <p className="px-2 py-1 bg-[#F8F7F1]">Today</p>

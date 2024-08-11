@@ -9,6 +9,7 @@ import {
   TextField,
   Typography,
   MenuItem,
+  CircularProgress,
 } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import AddBook from "../../../components/AddBook";
@@ -27,8 +28,6 @@ const VisuallyHiddenInput = styled("input")({
   width: 1,
 });
 
-
-
 function BookUpload() {
   const [selectedBook, setSelectedBook] = useState("");
   const [searchResults, setSearchResults] = useState([]);
@@ -37,15 +36,15 @@ function BookUpload() {
   const [quantity, setQuantity] = useState();
   const [POPUPData, setPOupData] = useState();
   const [image, setImage] = useState();
+  const [isUploading, setIsUploading] = useState(false); // New state for upload progress
   const [opensuc, setOpensuc] = useState(false);
 
   const handleOpensuc = () => setOpensuc(true);
   const handleClosesuc = () => setOpensuc(false);
 
-  
-
   const handleFiles = async (files) => {
     try {
+      setIsUploading(true); // Start upload progress
       const formData = new FormData();
       formData.append("file", files[0]);
       formData.append("upload_preset", "santimevent");
@@ -55,9 +54,10 @@ function BookUpload() {
         formData
       );
       setImage(response.data.secure_url);
-
+      setIsUploading(false); // End upload progress
       console.log("event image ....", response.data.secure_url);
     } catch (error) {
+      setIsUploading(false); // End upload progress on error
       console.error("Error uploading file:", error);
     }
   };
@@ -66,9 +66,9 @@ function BookUpload() {
     const files = event.target.files;
     handleFiles(files);
   };
+
   const handleAddBook = (newBook) => {
     setPOupData(newBook);
-
     // Send new book data to backend
   };
 
@@ -190,8 +190,9 @@ function BookUpload() {
                 gap: 4,
               }}
             >
-              <FormControl sx={{ marginBottom: 2 }}
-              className="w-[100%] lg:w-[50$]"
+              <FormControl
+                sx={{ marginBottom: 2 }}
+                className="w-[100%] lg:w-[50$]"
               >
                 <TextField
                   id="outlined-number"
@@ -203,8 +204,9 @@ function BookUpload() {
                   onChange={(e) => setQuantity(e.target.value)}
                 />
               </FormControl>
-              <FormControl sx={{ marginBottom: 2 }}
-              className="w-[100%] lg:w-[50$]"
+              <FormControl
+                sx={{ marginBottom: 2 }}
+                className="w-[100%] lg:w-[50$]"
               >
                 <TextField
                   id="price"
@@ -235,6 +237,29 @@ function BookUpload() {
               <VisuallyHiddenInput type="file" />
             </Button>
 
+            {/* Image preview or loading indicator */}
+            {isUploading ? (
+              <CircularProgress />
+            ) : (
+              image && (
+                <Box
+                  sx={{
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    width: "100%",
+                    marginTop: 2,
+                  }}
+                >
+                  <img
+                    src={image}
+                    alt="Book Cover"
+                    style={{ maxWidth: "100%", maxHeight: "150px" }}
+                  />
+                </Box>
+              )
+            )}
+
             <Button
               variant="contained"
               sx={{
@@ -251,11 +276,7 @@ function BookUpload() {
         </div>
       </div>
 
-      <AddBook
-        open={open}
-        handleClose={handleClose}
-        handleAddBook={handleAddBook}
-      />
+      <AddBook open={open} handleClose={handleClose} handleAddBook={handleAddBook} />
 
       <Success handleClose={handleClosesuc} open={opensuc} />
     </div>
