@@ -9,6 +9,8 @@ import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 import axios from "axios";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const style = {
   position: "absolute",
@@ -55,10 +57,10 @@ function EditBook({ open, handleClose, data }) {
           Authorization: `Bearer ${token}`,
         },
       });
-      console.log(res);
+      toast.success(res.data.message)
       handleClose();
     } catch (err) {
-      console.log(err);
+      toast.error(err.response.data.error)
     }
   };
 
