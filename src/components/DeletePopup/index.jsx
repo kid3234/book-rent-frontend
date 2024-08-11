@@ -14,7 +14,7 @@ export default function DeletePopup({ open, handleClose, data }) {
   const handleDelete = async () => {
     const token = localStorage.getItem("token");
     const role = localStorage.getItem('role')
-    const URL = role === 'admin' ?`http://localhost:5000/api/V1/users/${data?.id}` :`http://localhost:5000/api/V1/books/${data?.id}` 
+    const URL = role === 'admin' ?`https://book-rent-api-4.onrender.com/api/V1/users/${data?.id}` :`https://book-rent-api-4.onrender.com/api/V1/books/${data?.id}` 
     await axios
       .delete(URL, {
         headers: {

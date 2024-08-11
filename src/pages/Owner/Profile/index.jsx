@@ -68,7 +68,7 @@ function ProfilePage() {
 
     try {
       const res = await axios.put(
-        "http://localhost:5000/api/V1/users/update",
+        "https://book-rent-api-4.onrender.com/api/V1/users/update",
         formdata,
         {
           headers: {
@@ -85,7 +85,7 @@ function ProfilePage() {
   useEffect(() => {
     const token = localStorage.getItem("token");
     axios
-      .get("http://localhost:5000/api/V1/users/profile", {
+      .get("https://book-rent-api-4.onrender.com/api/V1/users/profile", {
         headers: {
           Authorization: `Bearer ${token}`,
         },

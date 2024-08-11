@@ -23,8 +23,8 @@ const StatusToggle = ({ checked, label, onChange, status, id }) => {
     const token = localStorage.getItem("token");
     const URL =
       path === "books"
-        ? `http://localhost:5000/api/V1/books/${id}/approve`
-        : `http://localhost:5000/api/V1/users/${id}/status`;
+        ? `https://book-rent-api-4.onrender.com/api/V1/books/${id}/approve`
+        : `https://book-rent-api-4.onrender.com/api/V1/users/${id}/status`;
     await axios.patch(
       URL,
       {},

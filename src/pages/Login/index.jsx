@@ -36,7 +36,7 @@ function Login() {
 
       try {
         const res = await axios.post(
-          "http://localhost:5000/api/V1/auth/login",
+          "https://book-rent-api-4.onrender.com/api/V1/auth/login",
           data
         );
         toast.success(res.data.message)
@@ -118,7 +118,7 @@ function Login() {
       </div>
 
       <div className="w-1/2 min-h-screen flex flex-col gap-4 justify-center items-center">
-        <div className="w-3/4 h-fit p-4 flex flex-col gap-4">
+        <div className="w-full lg:w-3/4 h-fit p-2 lg:p-4 flex flex-col gap-4">
           <div className="flex gap-4">
             <svg
               width="60"

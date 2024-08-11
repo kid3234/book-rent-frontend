@@ -78,7 +78,7 @@ function BookUpload() {
     const data = { ...POPUPData, price, quantity, image };
 
     axios
-      .post("http://localhost:5000/api/V1/books", data, {
+      .post("https://book-rent-api-4.onrender.com/api/V1/books", data, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -102,7 +102,7 @@ function BookUpload() {
     if (value.length > 2) {
       try {
         const response = await axios.get(
-          `http://localhost:5000/api/V1/books/filter?value=${value}`,
+          `https://book-rent-api-4.onrender.com/api/V1/books/filter?value=${value}`,
           {
             headers: {
               Authorization: `Bearer ${token}`,
@@ -127,7 +127,7 @@ function BookUpload() {
     <div className="w-full min-h-screen bg-[#F0F2FF]">
       <SideBar />
       <NaveBar />
-      <div className="w-full min-h-screen pl-72 pt-20 flex gap-4">
+      <div className="w-full min-h-screen p-10 lg:pl-72 pt-20 flex gap-4">
         <div className="w-full bg-white ">
           <Box
             sx={{
@@ -156,7 +156,8 @@ function BookUpload() {
             >
               <FormControl
                 fullWidth
-                sx={{ marginBottom: 2, margin: "auto", width: "50%" }}
+                sx={{ marginBottom: 2, margin: "auto" }}
+                className="w-[100%] lg:w-[50$]"
               >
                 <TextField
                   label="Search book by name or Author"
@@ -189,7 +190,9 @@ function BookUpload() {
                 gap: 4,
               }}
             >
-              <FormControl sx={{ marginBottom: 2, width: "50%" }}>
+              <FormControl sx={{ marginBottom: 2 }}
+              className="w-[100%] lg:w-[50$]"
+              >
                 <TextField
                   id="outlined-number"
                   label="Book Quantity"
@@ -200,7 +203,9 @@ function BookUpload() {
                   onChange={(e) => setQuantity(e.target.value)}
                 />
               </FormControl>
-              <FormControl sx={{ marginBottom: 2, width: "50%" }}>
+              <FormControl sx={{ marginBottom: 2 }}
+              className="w-[100%] lg:w-[50$]"
+              >
                 <TextField
                   id="price"
                   label="Rent Price for 2 weeks"
