@@ -5,6 +5,8 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useFormik } from "formik";
 import * as Yup from "yup";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 // Validation schema using Yup
 const validationSchema = Yup.object({
@@ -54,6 +56,7 @@ function Register() {
         navigate("/login");
       } catch (err) {
         console.log(err);
+        toast.error(err.response.data.error)
       } finally {
         setSubmitting(false);
       }
