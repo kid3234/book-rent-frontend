@@ -158,7 +158,7 @@ export default function ReactVirtualizedTable({
               </Box>
             ) : column.dataKey === "bookNo" ? (
               <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
-                <Typography>{row.quantity}</Typography>
+                <Typography>{row.bookNumber}</Typography>
               </Box>
             ) : column.dataKey === "status" ? (
               <StatusToggle
