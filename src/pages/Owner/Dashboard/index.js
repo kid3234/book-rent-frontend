@@ -14,6 +14,7 @@ function OwnewDashboard() {
   const [book, setBook] = useState(null);
   const [opendelete, Setdelete] = useState(false);
   const [availableBooks, setAvailableBooks] = useState([]);
+  const [currentMonthIncome, setCurrentMonthIncome] = useState([]);
 
   const handleOpenDelete = (data) => {
     Setdelete(true);
@@ -50,6 +51,7 @@ function OwnewDashboard() {
         }));
         setBooks(mappedBooks);
         setAvailableBooks(res.data?.availableBooks);
+        setCurrentMonthIncome(res?.data?.currentMonthIncome)
       })
       .catch((err) => {
         console.error(err);
@@ -91,7 +93,7 @@ function OwnewDashboard() {
               <hr />
               <div>
                 <p className="font-bold flex gap-2 text-lg">
-                  ETB 9460.00{" "}
+                  ETB {currentMonthIncome}{" "}
                   <span className="text-[#FF2727] flex items-center font-normal text-sm">
                     <svg
                       xmlns="http://www.w3.org/2000/svg"

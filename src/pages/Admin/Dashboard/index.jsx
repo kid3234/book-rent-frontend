@@ -8,6 +8,8 @@ import axios from "axios";
 
 function Dashboard() {
   const [books, setBooks] = useState();
+  const [availableBooks, setAvailableBooks] = useState([]);
+  const [currentMonthIncome, setCurrentMonthIncome] = useState([]);
   const columns = [
     { width: 50, label: 'No.', dataKey: 'number' },
     { width: 80, label: 'Book no.', dataKey: 'bookNo' },
@@ -28,6 +30,8 @@ function Dashboard() {
         number: index + 1,
       }));
       setBooks(mappedBooks);
+      setAvailableBooks(res.data?.availableBooks);
+      setCurrentMonthIncome(res?.data?.currentMonthIncome)
     }).catch((err) => {
     
     });
@@ -52,7 +56,7 @@ function Dashboard() {
             <hr />
             <div>
               <p className="font-bold flex gap-2 text-lg">
-                ETB 9460.00{" "}
+              ETB {currentMonthIncome}{" "}
                 <span className="text-[#FF2727] flex items-center font-normal text-sm">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -82,7 +86,7 @@ function Dashboard() {
               <p className="px-2 py-1 bg-[#F8F7F1]">Today</p>
             </div>
             <div className="w-full px-2">
-              <NewPieChart />
+              <NewPieChart data={availableBooks} />
             </div>
           </div>
         </div>
