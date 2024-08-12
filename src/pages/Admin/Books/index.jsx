@@ -7,7 +7,7 @@ import axios from "axios";
 function Books() {
 const [books,setBooks] = useState()
 
-useEffect(()=>{
+const refreshList = () => { 
   const token = localStorage.getItem('token')
   axios.get('https://book-rent-api.onrender.com/api/V1/users/admin/books',{
     headers:{
@@ -26,6 +26,10 @@ useEffect(()=>{
   
     
   })
+}
+
+useEffect(()=>{
+  refreshList()
 },[])
 
   const columns = [
@@ -45,7 +49,7 @@ useEffect(()=>{
 
       <div className="w-full min-h-screen pl-72 pt-20 flex gap-4">
         <div className="w-[90%]  p-4">
-        <ReactVirtualizedTable columns={columns} text="List of Books" rows={books} />
+        <ReactVirtualizedTable columns={columns} text="List of Books" rows={books} refreshList={refreshList}/>
 
         </div>
       </div>

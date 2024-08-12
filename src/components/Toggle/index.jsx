@@ -6,7 +6,7 @@ import axios from "axios";
 
 import { Box, Typography, Switch } from "@mui/material";
 const StatusToggle = ({ checked, label, onChange, status, id,refreshList }) => {
-  console.log(status, label, onChange, checked, id);
+ 
 
   const [check, setCheck] = useState(checked);
   const location = useLocation();
@@ -33,7 +33,10 @@ const StatusToggle = ({ checked, label, onChange, status, id,refreshList }) => {
         },
       }
     ).then((res)=>{
-      refreshList()
+   
+     refreshList()
+ 
+     
     }).catch((err)=>{
 
     });
