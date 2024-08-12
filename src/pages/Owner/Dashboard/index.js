@@ -2,11 +2,13 @@ import React, { useEffect, useState } from "react";
 import SideBar from "../../../components/Sidebar";
 import NaveBar from "../../../components/NaveBar";
 import NewPieChart from "../../../components/PieChart";
-import ReactVirtualizedTable from "../../../components/Table";
+
 import EarningsSummaryChart from "../../../components/lineChart";
 import axios from "axios";
 import EditBook from "../../../components/EditBook";
 import DeletePopup from "../../../components/DeletePopup";
+import MaterialReactTableOwnerdashboard from "../../../components/Ownerdashtable";
+
 
 function OwnewDashboard() {
   const [books, setBooks] = useState([]);
@@ -131,7 +133,7 @@ function OwnewDashboard() {
 
         <div className="flex flex-col gap-4 w-[100%] lg:w-3/4 min-h-screen px-6">
           <div className="bg-white w-full h-[51%] rounded-xl">
-            <ReactVirtualizedTable
+            <MaterialReactTableOwnerdashboard
               columns={columns}
               text="Live Book Status"
               rows={books}

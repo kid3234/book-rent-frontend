@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import SideBar from "../../../components/Sidebar";
 import NaveBar from "../../../components/NaveBar";
-import ReactVirtualizedTable from "../../../components/Table";
+
 
 import DeletePopup from "../../../components/DeletePopup";
 import axios from "axios";
@@ -10,6 +10,8 @@ import Modal from "@mui/material/Modal";
 import TextField from "@mui/material/TextField";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import MaterialReactTableOwner from "../../../components/OwnerTable";
+
 
 const style = {
   position: "absolute",
@@ -52,6 +54,8 @@ function Owners() {
           number: index + 1,
           action: "Action",
         }));
+        console.log("kk",mappedOwners);
+        
         setOwners(mappedOwners);
       })
       .catch((err) => {
@@ -94,14 +98,7 @@ function Owners() {
     setOpensee(true);
   };
 
-  const columns = [
-    { width: 50, label: "No.", dataKey: "number" },
-    { width: 120, label: "Owner", dataKey: "owner" },
-    { width: 80, label: "Upload", dataKey: "booksCount" },
-    { width: 120, label: "Location", dataKey: "location" },
-    { width: 100, label: "Status", dataKey: "status" },
-    { width: 120, label: "Action", dataKey: "action" },
-  ];
+  
 
  
 
@@ -115,9 +112,9 @@ function Owners() {
       <NaveBar />
 
       <div className="w-full min-h-screen pl-72 pt-20 flex gap-4">
-        <div className="w-[90%] p-4">
-          <ReactVirtualizedTable
-            columns={columns}
+        <div className="w-[100%] p-4">
+          <MaterialReactTableOwner
+            
             text="List of Owners"
             rows={owners}
             handleOpensee={handleOpensee}

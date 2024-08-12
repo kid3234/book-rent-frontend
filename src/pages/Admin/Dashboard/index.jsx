@@ -2,39 +2,54 @@ import React, { useEffect, useState } from "react";
 import SideBar from "../../../components/Sidebar";
 import NaveBar from "../../../components/NaveBar";
 import NewPieChart from "../../../components/PieChart";
-import ReactVirtualizedTable from "../../../components/Table";
+
 import EarningsSummaryChart from "../../../components/lineChart";
 import axios from "axios";
+
+import MaterialReactTableAdmin from "../../../components/Admintable";
+
+
 
 function Dashboard() {
   const [books, setBooks] = useState();
   const [availableBooks, setAvailableBooks] = useState([]);
   const [currentMonthIncome, setCurrentMonthIncome] = useState([]);
+  // const columns = [
+  //   { width: 50, label: 'No.', dataKey: 'number' },
+  //   { width: 80, label: 'Book no.', dataKey: 'bookNo' },
+  //   { width: 120, label: 'Owner', dataKey: 'owner' },
+  //   { width: 120, label: 'Status', dataKey: 'dashstatus' },
+  //   { width: 100, label: 'Price', dataKey: 'price' },
+  // ];
+
   const columns = [
-    { width: 50, label: 'No.', dataKey: 'number' },
-    { width: 80, label: 'Book no.', dataKey: 'bookNo' },
-    { width: 120, label: 'Owner', dataKey: 'owner' },
-    { width: 120, label: 'Status', dataKey: 'dashstatus' },
-    { width: 100, label: 'Price', dataKey: 'price' },
+    { header: "No.", accessorKey: "number" },
+    { header: "Book no.", accessorKey: "bookNo" },
+    { header: "Owner", accessorKey: "owner" },
+    { header: "Status", accessorKey: "dashstatus" },
+    { header: "Price", accessorKey: "price" },
   ];
 
   useEffect(() => {
-    const token = localStorage.getItem('token');
-    axios.get("https://book-rent-api.onrender.com/api/V1/users/admin/dashboard", {
-      headers: {
-        Authorization: `Bearer ${token}`
-      }
-    }).then((res) => {
-      const mappedBooks = res.data.bookStatusData.map((book, index) => ({
-        ...book,
-        number: index + 1,
-      }));
-      setBooks(mappedBooks);
-      setAvailableBooks(res.data?.availableBooks);
-      setCurrentMonthIncome(res?.data?.currentMonthIncome)
-    }).catch((err) => {
-    
-    });
+    const token = localStorage.getItem("token");
+    axios
+      .get("https://book-rent-api.onrender.com/api/V1/users/admin/dashboard", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .then((res) => {
+        const mappedBooks = res.data.bookStatusData.map((book, index) => ({
+          ...book,
+          number: index + 1,
+        }));
+        console.log(mappedBooks);
+        
+        setBooks(mappedBooks);
+        setAvailableBooks(res.data?.availableBooks);
+        setCurrentMonthIncome(res?.data?.currentMonthIncome);
+      })
+      .catch((err) => {});
   }, []);
 
   return (
@@ -56,7 +71,7 @@ function Dashboard() {
             <hr />
             <div>
               <p className="font-bold flex gap-2 text-lg">
-              ETB {currentMonthIncome}{" "}
+                ETB {currentMonthIncome}{" "}
                 <span className="text-[#FF2727] flex items-center font-normal text-sm">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -93,7 +108,11 @@ function Dashboard() {
 
         <div className="flex flex-col gap-4 w-full md:w-3/4 min-h-screen px-6">
           <div className="bg-white w-full h-[51%] rounded-xl">
-            <ReactVirtualizedTable columns={columns} text="Live Book Status" rows={books} />
+            <MaterialReactTableAdmin
+              columns={columns}
+              text="Live Book Status"
+              rows={books}
+            />
           </div>
           <div className="bg-white w-full h-fit">
             <EarningsSummaryChart />

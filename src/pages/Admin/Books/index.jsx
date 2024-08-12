@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import SideBar from "../../../components/Sidebar";
 import NaveBar from "../../../components/NaveBar";
-import ReactVirtualizedTable from "../../../components/Table";
 import axios from "axios";
+import MaterialReactTableBook from "../../../components/Booktable";
 
 function Books() {
 const [books,setBooks] = useState()
@@ -48,8 +48,8 @@ useEffect(()=>{
       <NaveBar />
 
       <div className="w-full min-h-screen pl-72 pt-20 flex gap-4">
-        <div className="w-[90%]  p-4">
-        <ReactVirtualizedTable columns={columns} text="List of Books" rows={books} refreshList={refreshList}/>
+        <div className="w-[100%]  p-4">
+        <MaterialReactTableBook columns={columns} text="List of Books" rows={books} refreshList={refreshList}/>
 
         </div>
       </div>

@@ -5,7 +5,7 @@ import { useLocation } from "react-router-dom";
 import axios from "axios";
 
 import { Box, Typography, Switch } from "@mui/material";
-const StatusToggle = ({ checked, label, onChange, status, id,refreshList }) => {
+const StatusToggle = ({ checked,  id,refreshList }) => {
  
 
   const [check, setCheck] = useState(checked);
@@ -73,7 +73,7 @@ const StatusToggle = ({ checked, label, onChange, status, id,refreshList }) => {
       <Switch
         checked={check}
         onChange={handleCheck}
-        // a5d6a7
+      
         sx={{
           "& .MuiSwitch-track": {
             backgroundColor: check ? "#3FC243" : "#D6B9B9",
