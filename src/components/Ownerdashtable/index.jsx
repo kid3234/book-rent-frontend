@@ -31,8 +31,9 @@ export default function MaterialReactTableOwnerdashboard({
     const token = localStorage.getItem("token");
     setLoading(true);
     try {
+      const queryParams = new URLSearchParams(params).toString();
       const response = await axios.get(
-        `https://book-rent-api-2.onrender.com/api/V1/books/filter?${new URLSearchParams(params)}`,
+        `https://book-rent-api-2.onrender.com/api/V1/books/filter?${queryParams}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,

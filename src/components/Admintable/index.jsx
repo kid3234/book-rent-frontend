@@ -11,7 +11,6 @@ import axios from "axios";
 
 export default function MaterialReactTableAdmin({ rows = [], refreshList }) {
 
-
   const [data, setData] = React.useState([]);
   const [loading, setLoading] = React.useState(false);
 
@@ -29,14 +28,20 @@ export default function MaterialReactTableAdmin({ rows = [], refreshList }) {
     const token = localStorage.getItem("token");
     setLoading(true);
     try {
+      const { globalFilter } = params;
+
+      console.log("params",params);
+      
+
       const response = await axios.get(
-        `https://book-rent-api-2.onrender.com/api/V1/books/filterall?${new URLSearchParams(params)}`,
+        `https://book-rent-api-2.onrender.com/api/V1/books/filter?value=${globalFilter}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
           },
         }
       );
+
       const updatedRows = response.data.map(({ owner, ...rest }) => ({
         ...rest,
         ownerName: owner?.name,
@@ -51,32 +56,20 @@ export default function MaterialReactTableAdmin({ rows = [], refreshList }) {
   };
 
   const handleTableChange = (state) => {
-    const filters =
-      state?.columnFilters?.map((filter) => ({
-        id: filter.id,
-        value: filter.value,
-      })) || [];
-
-    const sort = state?.sorting?.[0]
-      ? { id: state.sorting[0].id, desc: state.sorting[0].desc }
-      : null;
-
+    console.log("state...........",state);
+    
     const params = {
       globalFilter: state?.globalFilter || "",
-      filters: JSON.stringify(filters),
-      sort: JSON.stringify(sort),
     };
 
     fetchData(params);
   };
-
 
   const columns = [
     {
       header: "No.",
       accessorKey: "number",
     },
-
     {
       accessorKey: "bookNo",
       header: "Book no.",
@@ -131,8 +124,6 @@ export default function MaterialReactTableAdmin({ rows = [], refreshList }) {
     },
   ];
 
-  
-
   return (
     <Box display="flex" flexDirection="column" padding={2}>
       <Typography variant="h6">Live Book Status</Typography>
@@ -141,10 +132,10 @@ export default function MaterialReactTableAdmin({ rows = [], refreshList }) {
           overflow: "auto",
           height: 300,
           ".MuiTableCell-root": {
-            padding: "2px 4px", // Adjust padding here
+            padding: "2px 4px",
           },
           ".MuiTableRow-root": {
-            borderBottom: "1px solid #ddd", // Adjust row border if needed
+            borderBottom: "1px solid #ddd",
           },
         }}
       >
@@ -156,8 +147,10 @@ export default function MaterialReactTableAdmin({ rows = [], refreshList }) {
          enableSorting
          isLoading={loading}
          onStateChange={handleTableChange}
+      
         />
       </Box>
     </Box>
   );
 }
+
