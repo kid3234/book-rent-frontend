@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   AreaChart,
   Area,
@@ -10,16 +10,80 @@ import {
 } from "recharts";
 import { Paper, Typography, Box } from "@mui/material";
 
-const data = [
-  { name: "May", last6Months: 200, lastYear: 150 },
-  { name: "Jun", last6Months: 250, lastYear: 100 },
-  { name: "Jul", last6Months: 180, lastYear: 160 },
-  { name: "Aug", last6Months: 220, lastYear: 180 },
-  { name: "Sep", last6Months: 210, lastYear: 170 },
-  { name: "Oct", last6Months: 240, lastYear: 190 },
-];
+const EarningsSummaryChart = ({ incomeGraph }) => {
+  const [data, setData] = useState();
 
-const EarningsSummaryChart = () => {
+  const getMonthName = (monthNumber) => {
+    const monthNames = [
+      "Jan",
+      "Feb",
+      "Mar",
+      "Apr",
+      "May",
+      "Jun",
+      "Jul",
+      "Aug",
+      "Sep",
+      "Oct",
+      "Nov",
+      "Dec",
+    ];
+    return monthNames[monthNumber - 1];
+  };
+
+  const transformData = (incomeGraph) => {
+    console.log('incomeGraph',incomeGraph);
+    
+    if (
+      !incomeGraph ||
+      !incomeGraph.last6MonthsIncome ||
+      !incomeGraph.samePeriodLastYearIncome
+    ) {
+      console.error("Invalid data structure");
+      return [];
+    }
+
+    const last6Months = incomeGraph.last6MonthsIncome.reduce((acc, item) => {
+      const monthNumber = Number(item.month);
+      if (isNaN(monthNumber) || item.totalIncome == null) return acc; // Skip invalid data
+
+      const monthName = getMonthName(monthNumber);
+      acc[monthName] = {
+        name: monthName,
+        last6Months: item.totalIncome,
+        lastYear: 0,
+      };
+      return acc;
+    }, {});
+
+    incomeGraph.samePeriodLastYearIncome.forEach((item) => {
+      const monthNumber = Number(item.month);
+      if (isNaN(monthNumber) || item.totalIncome == null) return; // Skip invalid data
+
+      const monthName = getMonthName(monthNumber);
+      if (last6Months[monthName]) {
+        last6Months[monthName].lastYear = item.totalIncome;
+      } else {
+        last6Months[monthName] = {
+          name: monthName,
+          last6Months: 0,
+          lastYear: item.totalIncome,
+        };
+      }
+    });
+
+    return Object.values(last6Months);
+  };
+
+  useEffect(() => {
+    // const data = ;
+    setData(transformData(incomeGraph));
+   
+  }, [incomeGraph]);
+
+  console.log("income graph", data);
+
+
   return (
     <Paper
       style={{

@@ -15,8 +15,8 @@ export default function DeletePopup({ open, handleClose, data,refreshList }) {
     const role = localStorage.getItem("role");
     const URL =
       role === "admin"
-        ? `https://book-rent-api.onrender.com/api/V1/users/${data?.id}`
-        : `https://book-rent-api.onrender.com/api/V1/books/${data?.id}`;
+        ? `https://book-rent-api-2.onrender.com/api/V1/users/${data?.id}`
+        : `https://book-rent-api-2.onrender.com/api/V1/books/${data?.id}`;
     await axios
       .delete(URL, {
         headers: {

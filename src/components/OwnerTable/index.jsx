@@ -5,6 +5,7 @@ import RemoveRedEyeIcon from "@mui/icons-material/RemoveRedEye";
 import DeleteIcon from "@mui/icons-material/Delete";
 
 import StatusToggle from "../Toggle";
+import axios from "axios";
 
 export default function MaterialReactTableOwner({
   rows = [],
@@ -13,6 +14,66 @@ export default function MaterialReactTableOwner({
   handleOpenRemove,
   handleOwnerAproval,
 }) {
+
+  const [data, setData] = React.useState([]);
+  const [loading, setLoading] = React.useState(false);
+
+  // Set initial data from parent
+  React.useEffect(() => {
+    const updatedRows = rows?.map(({ owner, ...rest }) => ({
+      ...rest,
+      ownerName: owner?.name,
+      ownerImage: owner?.image,
+    }));
+    setData(updatedRows);
+  }, [rows]);
+
+  const fetchData = async (params) => {
+    const token = localStorage.getItem("token");
+    setLoading(true);
+    try {
+      const response = await axios.get(
+        `https://book-rent-api-2.onrender.com/api/V1/users/owner/filter?${new URLSearchParams(params)}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      const updatedRows = response.data.map(({ owner, ...rest }) => ({
+        ...rest,
+        ownerName: owner?.name,
+        ownerImage: owner?.image,
+      }));
+      setData(updatedRows);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleTableChange = (state) => {
+    const filters =
+      state?.columnFilters?.map((filter) => ({
+        id: filter.id,
+        value: filter.value,
+      })) || [];
+
+    const sort = state?.sorting?.[0]
+      ? { id: state.sorting[0].id, desc: state.sorting[0].desc }
+      : null;
+
+    const params = {
+      globalFilter: state?.globalFilter || "",
+      filters: JSON.stringify(filters),
+      sort: JSON.stringify(sort),
+    };
+
+    fetchData(params);
+  };
+
+
   const columns = [
     {
       header: "No.",
@@ -99,11 +160,13 @@ export default function MaterialReactTableOwner({
           }}
         >
           <MaterialReactTable
-            columns={columns}
-            data={rows}
-            enableColumnOrdering
-            enableColumnFiltering
-            enableSorting
+           columns={columns}
+           data={data}
+           enableColumnOrdering
+           enableColumnFiltering
+           enableSorting
+           isLoading={loading}
+           onStateChange={handleTableChange}
           />
         </Box>
       </Box>

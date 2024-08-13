@@ -52,7 +52,7 @@ function EditBook({ open, handleClose, data,refreshList }) {
     };
 
     try {
-      const res = await axios.put(`https://book-rent-api.onrender.com/api/V1/books/${data?.id}`, formdata, {
+      const res = await axios.put(`https://book-rent-api-2.onrender.com/api/V1/books/${data?.id}`, formdata, {
         headers: {
           Authorization: `Bearer ${token}`,
         },

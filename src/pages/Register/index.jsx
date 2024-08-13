@@ -52,7 +52,7 @@ function Register() {
       };
 
       try {
-      const res =  await axios.post("https://book-rent-api.onrender.com/api/V1/auth/register", data);
+      const res =  await axios.post("https://book-rent-api-2.onrender.com/api/V1/auth/register", data);
       toast.success(res.data.message)
         navigate("/login");
       } catch (err) {

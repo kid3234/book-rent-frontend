@@ -35,7 +35,7 @@ function Login() {
 
       try {
         const res = await axios.post(
-          "https://book-rent-api.onrender.com/api/V1/auth/login",
+          "https://book-rent-api-2.onrender.com/api/V1/auth/login",
           data
         );
         toast.success(res.data.message);
@@ -43,10 +43,8 @@ function Login() {
         setTimeout(() => {
           if (values.rememberMe) {
             localStorage.setItem("token", res.data.token);
-          } else {
-            sessionStorage.setItem("token", res.data.token);
-          }
-
+          } 
+          sessionStorage.setItem("token", res.data.token);
           try {
             const decodedToken = jwtDecode(res.data.token);
             const userRole = decodedToken.role;
